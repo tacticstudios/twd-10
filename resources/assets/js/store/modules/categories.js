@@ -41,6 +41,9 @@ export const actions = {
   setCategory ({ commit }, payload) {
     commit(types.SET_CATEGORY, payload)
   },
+  clearCategory ({ commit }) {
+    commit(types.CLEAR_CATEGORY)
+  },
 }
 
 // getters

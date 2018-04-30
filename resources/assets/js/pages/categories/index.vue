@@ -6,7 +6,7 @@
           <h3 class="headline mb-0">{{ $t('categories') }}</h3>
         </v-flex>
         <v-flex xs12 class="text-xs-right">
-          <v-btn small fab dark color="primary" @click.stop="dialog = true">
+          <v-btn small fab dark color="primary" @click.stop="createItem()">
             <v-icon dark>add</v-icon>
           </v-btn>
           <v-dialog v-model="dialog" scrollable max-width="500">
@@ -41,8 +41,9 @@
     <v-card-text>
       <v-data-table
         :headers="headers"
-        :items="items"
+        :items="categories"
         v-model="selected"
+        :loading="busy"
         item-key="id"
         select-all
         class="elevation-1"
@@ -92,6 +93,7 @@ export default {
   },
   data () {
     return {
+      busy: false,
       selected: [],
       dialog: false,
       headers: [
@@ -116,6 +118,9 @@ export default {
       ]
     }
   },
+  mounted: function () {
+    this.fetchItems()
+  },
   computed: {
     ...mapGetters({
       category: 'categories/category',
@@ -123,9 +128,26 @@ export default {
     })
   },
   methods: {
+    fetchItems: function() {
+      this.busy = true
+      this.$store.dispatch('categories/fetchCategories').then(response => {
+        console.log("Got some data, now lets show something in this component")
+        this.busy = false
+      }, error => {
+        console.error("Got nothing from server. Prompt user to check internet connection and try again")
+        this.busy = false
+      })
+    },
+    createItem: function() {
+      this.$store.dispatch('categories/clearCategory')
+      this.dialog = true
+    },
     editItem: function(item) {
       this.$store.dispatch('categories/setCategory', item)
       this.dialog = true
+    },
+    clearItem: function(item) {
+      this.$store.dispatch('categories/clearCategory')
     }
   }
 }
