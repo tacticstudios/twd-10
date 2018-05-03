@@ -11,27 +11,39 @@
           </v-btn>
           <v-dialog v-model="dialog" scrollable max-width="500">
             <v-card>
-              <v-card-title>
-                <span class="headline">{{ $t('create') + " " + $t('categories') }}</span>
-              </v-card-title>
-              <v-card-text>
-                <v-container grid-list-md>
-                  <v-layout wrap>
-                    <v-flex xs12>
-                      <v-text-field label="Nombre" v-model="category.name" required></v-text-field>
-                    </v-flex>
-                    <v-flex xs12>
-                      <v-text-field label="Descripción" v-model="category.description" hint="Una pequeña descripción de la categoría"></v-text-field>
-                    </v-flex>
-                  </v-layout>
-                </v-container>
-                <small>*indicates required field</small>
-              </v-card-text>
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="blue darken-1" flat @click.native="dialog = false">Close</v-btn>
-                <v-btn color="primary"  @click.native="dialog = false">Save</v-btn>
-              </v-card-actions>
+              <form @submit.prevent="saveItem" @keydown="form.onKeydown($event)">
+                <v-card-title>
+                  <span class="headline">{{ $t('create') + " " + $t('categories') }}</span>
+                </v-card-title>
+                <v-card-text>
+                  <v-container grid-list-md>
+                    <v-layout wrap>
+                      <v-flex xs12>
+                        <v-text-field label="Nombre" 
+                        v-model="category.name"
+                        :v-errors="errors" 
+                        :value.sync="form.name"
+                        v-validate="'required|max:50'"
+                        required></v-text-field>
+                      </v-flex>
+                      <v-flex xs12>
+                        <v-text-field label="Descripción"
+                        v-model="category.description"
+                        :v-errors="errors"
+                        :value.sync="form.description"
+                        v-validate="'max:200'"
+                        hint="Una pequeña descripción de la categoría"></v-text-field>
+                      </v-flex>
+                    </v-layout>
+                  </v-container>
+                  <small>*indicates required field</small>
+                </v-card-text>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn color="blue darken-1" flat @click.native="dialog = false">Close</v-btn>
+                  <submit-button :form="form" :flat="true" :label="$t('save')"></submit-button>
+                </v-card-actions>
+              </form>
             </v-card>
           </v-dialog>
         </v-flex>
@@ -73,7 +85,7 @@
             <v-btn icon class="mx-0" @click="editItem(props.item)">
               <v-icon color="teal">edit</v-icon>
             </v-btn>
-            <v-btn icon class="mx-0" @click="deleteItem(props.item)">
+            <v-btn icon class="mx-0" @click="deleteItem(props.item.id)">
               <v-icon color="pink">delete</v-icon>
             </v-btn>
           </td>
@@ -84,6 +96,7 @@
 </template>
 
 <script>
+import Form from 'vform'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -93,6 +106,10 @@ export default {
   },
   data () {
     return {
+      form: new Form({
+        name: '',
+        description: ''
+      }),
       busy: false,
       selected: [],
       dialog: false,
@@ -102,20 +119,6 @@ export default {
         { text: 'Description', value: 'description', sortable: false},
         { text: 'Actions', value: 'name', sortable: false }
       ],
-      items: [
-        {
-          value: false,
-          id: 1,
-          name: 'Frozen Yogurt',
-          description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo natus perferendis eveniet in dignissimos!'
-        },
-        {
-          value: false,
-          id: 2,
-          name: 'Hot Yogurt',
-          description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo natus perferendis eveniet in dignissimos! '
-        }
-      ]
     }
   },
   mounted: function () {
@@ -128,13 +131,38 @@ export default {
     })
   },
   methods: {
+    async saveItem () {
+      if (await this.formHasErrors()) return
+      
+      this.$store.dispatch('categories/saveCategory', this.category).then(response => {
+        console.log("correcto")
+        this.dialog = false
+      }, error => {
+        console.error("Got nothing from server. Prompt user to check internet connection and try again")
+      })
+
+      this.$store.dispatch('responseMessage', {
+        type: 'success',
+        text: this.$t('category_created')
+      })
+    },
+    async deleteItem (id) {
+      this.$store.dispatch('categories/deleteCategory', id).then(response => {
+        console.log("correcto")
+      }, error => {
+        console.error("Got nothing from server. Prompt user to check internet connection and try again")
+      })
+
+      this.$store.dispatch('responseMessage', {
+        type: 'success',
+        text: this.$t('category_deleted')
+      })
+    },
     fetchItems: function() {
       this.busy = true
       this.$store.dispatch('categories/fetchCategories').then(response => {
-        console.log("Got some data, now lets show something in this component")
         this.busy = false
       }, error => {
-        console.error("Got nothing from server. Prompt user to check internet connection and try again")
         this.busy = false
       })
     },

@@ -25,8 +25,11 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        //
+    {   
+        $category = new Category($request->all());
+        if($category->save()) {
+            return $category;
+        }
     }
 
     /**
@@ -59,7 +62,8 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {
-        //
+    {   
+        $category = Category::find($id);
+        $category->delete();
     }
 }

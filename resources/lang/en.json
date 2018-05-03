@@ -33,5 +33,8 @@
   "password_length_hint": "At least 8 characters",
   "nav_menu_title": "Application Menu",
   "categories": "Categories",
-  "create": "Create"
+  "create": "Create",
+  "save": "Save",
+  "category_created": "Category created!",
+  "category_deleted": "Category deleted!"
 }

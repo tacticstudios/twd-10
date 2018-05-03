@@ -1,5 +1,6 @@
 import axios from 'axios'
 import * as types from '../mutation-types'
+// import has from 'lodash/has'
 
 export const namespaced = true
 
@@ -20,6 +21,14 @@ export const mutations = {
   [types.FETCH_CATEGORIES] (state, payload) {
     state.categories = payload
   },
+  [types.PUSH_CATEGORY] (state, payload) {
+    state.categories.push(payload)
+  },
+  [types.REMOVE_CATEGORY] (state, payload) {
+    state.categories = state.categories.filter(function(el) {
+        return el.id !== payload;
+    });
+  },
   [types.CLEAR_CATEGORY] (state) {
     state.category = {
       name: '',
@@ -36,6 +45,23 @@ export const actions = {
       commit(types.FETCH_CATEGORIES, data)
     } catch (e) {
       console.log("Error")
+    }
+  },
+  async saveCategory ({ commit }, payload) {
+    try {
+      const { data } = await axios.post('/api/categories', payload)
+      commit(types.PUSH_CATEGORY, data)
+    } catch (e) {
+      console.log("Error")
+    }
+  },
+  async deleteCategory ({ commit }, payload) {
+    try {
+      let url = '/api/categories/' + payload
+      const { data } = await axios.delete(url)
+      commit(types.REMOVE_CATEGORY, payload)
+    } catch (e) {
+      console.log(e.message)
     }
   },
   setCategory ({ commit }, payload) {
