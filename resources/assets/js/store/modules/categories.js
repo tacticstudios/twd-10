@@ -1,6 +1,5 @@
 import axios from 'axios'
 import * as types from '../mutation-types'
-// import has from 'lodash/has'
 
 export const namespaced = true
 

@@ -9,6 +9,9 @@
           <v-btn small fab dark color="primary" @click.stop="createItem()">
             <v-icon dark>add</v-icon>
           </v-btn>
+          <v-btn small fab dark color="pink" @click.stop="createItem()">
+            <v-icon>delete</v-icon>
+          </v-btn>
           <v-dialog v-model="dialog" scrollable max-width="500">
             <v-card>
               <form @submit.prevent="saveItem" @keydown="form.onKeydown($event)">
