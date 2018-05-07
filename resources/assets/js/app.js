@@ -6,7 +6,6 @@ import { i18n } from '~/plugins'
 import App from '~/components/App'
 import '~/components'
 
-
 Vue.use(Vuetify)
 
 Vue.config.productionTip = false

@@ -35,6 +35,8 @@
   "categories": "Categories",
   "create": "Create",
   "save": "Save",
+  "description": "Description",
   "category_created": "Category created!",
-  "category_deleted": "Category deleted!"
+  "category_deleted": "Category deleted!",
+  "categories_deleted": "Categories deleted!"
 }

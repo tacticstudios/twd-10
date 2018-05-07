@@ -23,6 +23,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::patch('settings/profile', 'Settings\UpdateProfile');
     Route::patch('settings/password', 'Settings\UpdatePassword');
     Route::resource('categories', 'CategoryController');
+    Route::post('categories/deleteSelected', 'CategoryController@deleteSelected');
 });
 
 Route::group(['middleware' => 'guest:api'], function () {

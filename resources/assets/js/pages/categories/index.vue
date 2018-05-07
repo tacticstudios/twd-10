@@ -9,7 +9,7 @@
           <v-btn small fab dark color="primary" @click.stop="createItem()">
             <v-icon dark>add</v-icon>
           </v-btn>
-          <v-btn small fab dark color="pink" @click.stop="createItem()">
+          <v-btn small fab dark color="pink" @click.stop="deleteSelected()">
             <v-icon>delete</v-icon>
           </v-btn>
           <v-dialog v-model="dialog" scrollable max-width="500">
@@ -22,20 +22,29 @@
                   <v-container grid-list-md>
                     <v-layout wrap>
                       <v-flex xs12>
-                        <v-text-field label="Nombre" 
-                        v-model="category.name"
-                        :v-errors="errors" 
-                        :value.sync="form.name"
-                        v-validate="'required|max:50'"
-                        required></v-text-field>
+                        <text-input
+                          v-model="category.name"
+                          :form="form"
+                          :label="$t('name')"
+                          :v-errors="errors"
+                          :value.sync="form.name"
+                          counter="50"
+                          name="name"
+                          v-validate="'required|max:50'"
+                        ></text-input>
                       </v-flex>
                       <v-flex xs12>
-                        <v-text-field label="Descripción"
-                        v-model="category.description"
-                        :v-errors="errors"
-                        :value.sync="form.description"
-                        v-validate="'max:200'"
-                        hint="Una pequeña descripción de la categoría"></v-text-field>
+                        <text-input
+                          v-model="category.description"
+                          :form="form"
+                          :label="$t('description')"
+                          :v-errors="errors"
+                          :value.sync="form.description"
+                          counter="200"
+                          name="description"
+                          v-validate="'required|max:200'"
+                          hint="Una pequeña descripción de la categoría"
+                        ></text-input>
                       </v-flex>
                     </v-layout>
                   </v-container>
@@ -44,6 +53,7 @@
                 <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn color="blue darken-1" flat @click.native="dialog = false">Close</v-btn>
+                  <input type="submit" value="asd">
                   <submit-button :form="form" :flat="true" :label="$t('save')"></submit-button>
                 </v-card-actions>
               </form>
@@ -117,10 +127,10 @@ export default {
       selected: [],
       dialog: false,
       headers: [
-        { text: 'ID', value: 'id' },
+        { text: 'ID', value: 'id'},
         { text: 'Name', value: 'name' },
         { text: 'Description', value: 'description', sortable: false},
-        { text: 'Actions', value: 'name', sortable: false }
+        { text: 'Actions', value: 'name', sortable: false, width: 20 }
       ],
     }
   },
@@ -135,22 +145,34 @@ export default {
   },
   methods: {
     async saveItem () {
+      console.log('xd')
       if (await this.formHasErrors()) return
       
-      this.$store.dispatch('categories/saveCategory', this.category).then(response => {
+      // this.$emit('busy', true)
+      
+      // this.$store.dispatch('categories/saveCategory', this.category).then(response => {
+      //   this.dialog = false
+      //   this.$emit('busy', false)
+      // }, error => {
+      //   console.error("Got nothing from server. Prompt user to check internet connection and try again")
+      // })
+      this.dialog = false
+      return
+    },
+    async deleteItem (id) {
+      this.$store.dispatch('categories/deleteCategory', id).then(response => {
         console.log("correcto")
-        this.dialog = false
       }, error => {
         console.error("Got nothing from server. Prompt user to check internet connection and try again")
       })
 
       this.$store.dispatch('responseMessage', {
         type: 'success',
-        text: this.$t('category_created')
+        text: this.$t('category_deleted')
       })
     },
-    async deleteItem (id) {
-      this.$store.dispatch('categories/deleteCategory', id).then(response => {
+    async deleteSelected () {
+      this.$store.dispatch('categories/deleteCategories', this.selected).then(response => {
         console.log("correcto")
       }, error => {
         console.error("Got nothing from server. Prompt user to check internet connection and try again")

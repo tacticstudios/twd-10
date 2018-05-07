@@ -15,7 +15,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return Category::all();
+        return Category::orderBy('id', 'desc')->get();
     }
 
     /**
@@ -65,5 +65,14 @@ class CategoryController extends Controller
     {   
         $category = Category::find($id);
         $category->delete();
+    }
+
+    public function deleteSelected(Request $request)
+    {   
+        $categories = $request->input('categories');
+        foreach ($categories as $key => $value) {
+            $category = Category::find($value);
+            $category->delete();
+        }
     }
 }

@@ -23,10 +23,11 @@ export const mutations = {
   [types.PUSH_CATEGORY] (state, payload) {
     state.categories.push(payload)
   },
-  [types.REMOVE_CATEGORY] (state, payload) {
-    state.categories = state.categories.filter(function(el) {
-        return el.id !== payload;
-    });
+  [types.REMOVE_CATEGORIES] (state, payload) {
+    state.categories = state.categories
+      .filter(function(el) {
+          return !payload.includes(el.id)
+      })
   },
   [types.CLEAR_CATEGORY] (state) {
     state.category = {
@@ -46,19 +47,40 @@ export const actions = {
       console.log("Error")
     }
   },
-  async saveCategory ({ commit }, payload) {
+  async saveCategory ({ commit, dispatch }, payload) {
     try {
       const { data } = await axios.post('/api/categories', payload)
       commit(types.PUSH_CATEGORY, data)
+
+      dispatch('responseMessage', {
+        type: 'success',
+        text: 'Category created!'
+      }, {root:true})
+
     } catch (e) {
-      console.log("Error")
+      console.log(e.message)
+
+      dispatch('responseMessage', {
+        type: 'error',
+        text: 'Error Interno'
+      }, {root:true})
     }
   },
   async deleteCategory ({ commit }, payload) {
     try {
       let url = '/api/categories/' + payload
       const { data } = await axios.delete(url)
-      commit(types.REMOVE_CATEGORY, payload)
+      commit(types.REMOVE_CATEGORIES, [payload])
+    } catch (e) {
+      console.log(e.message)
+    }
+  },
+  async deleteCategories ({ commit }, payload) {
+    try {
+      let categories = payload.map((el) => { return el.id })
+      const { data } = await axios.post('/api/categories/deleteSelected',
+        { categories : categories})
+      commit(types.REMOVE_CATEGORIES, categories)
     } catch (e) {
       console.log(e.message)
     }

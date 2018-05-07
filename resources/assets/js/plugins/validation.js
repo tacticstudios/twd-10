@@ -10,6 +10,7 @@ Vue.mixin({
   methods: {
     async formHasErrors () {
       const valid = await this.$validator.validateAll()
+      console.log(valid)
       if (valid) {
         this.$validator.pause()
       }
