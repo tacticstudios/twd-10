@@ -66,32 +66,32 @@ export default {
     return {
       name: this.$t('nav_menu_title'),
       items: [
-        { icon: 'settings', text: 'Settings' },
-        {
-          icon: 'keyboard_arrow_up',
-          'icon-alt': 'keyboard_arrow_down',
-          text: 'Labels',
-          model: true,
-          children: [
-            { icon: 'add', text: 'Create label' }
-          ]
-        },
-        {
-          icon: 'keyboard_arrow_up',
-          'icon-alt': 'keyboard_arrow_down',
-          text: 'More',
-          model: false,
-          children: [
-            { text: 'Import' },
-            { text: 'Export' },
-            { text: 'Print' },
-            { text: 'Undo changes' },
-            { text: 'Other contacts' }
-          ]
-        },
-        { icon: 'chat_bubble', text: 'Send feedback' },
-        { icon: 'help', text: 'Help' },
+        // { icon: 'settings', text: 'Settings' },
+        // {
+        //   icon: 'keyboard_arrow_up',
+        //   'icon-alt': 'keyboard_arrow_down',
+        //   text: 'Labels',
+        //   model: true,
+        //   children: [
+        //     { icon: 'add', text: 'Create label' }
+        //   ]
+        // },
+        // {
+        //   icon: 'keyboard_arrow_up',
+        //   'icon-alt': 'keyboard_arrow_down',
+        //   text: 'More',
+        //   model: false,
+        //   children: [
+        //     { text: 'Import' },
+        //     { text: 'Export' },
+        //     { text: 'Print' },
+        //     { text: 'Undo changes' },
+        //     { text: 'Other contacts' }
+        //   ]
+        // },
         { icon: 'phonelink', text: 'Categorias', route: { name: 'categories' } },
+        { icon: 'chat_bubble', text: 'Productos' },
+        { icon: 'help', text: 'Cotizaciones' },
         { icon: 'keyboard', text: 'Perfil', route: { name: 'settings.profile' } }
       ]
     }

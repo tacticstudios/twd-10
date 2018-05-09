@@ -5,39 +5,39 @@ export const namespaced = true
 
 // state
 export const state = {
-  category: {
+  product: {
     name: '',
     description: ''
   },
-  categories: []
+  products: []
 }
 
 // mutations
 export const mutations = {
-  [types.SET_CATEGORY] (state, payload) {
-    state.category.id = payload.id
-    state.category.name = payload.name
-    state.category.description = payload.description
+  [types.SET_PRODUCT] (state, payload) {
+    state.product.id = payload.id
+    state.product.name = payload.name
+    state.product.description = payload.description
   },
-  [types.FETCH_CATEGORIES] (state, payload) {
-    state.categories = payload
+  [types.FETCH_PRODUCTS] (state, payload) {
+    state.products = payload
   },
-  [types.PUSH_CATEGORY] (state, payload) {
-    state.categories.push(payload)
+  [types.PUSH_PRODUCT] (state, payload) {
+    state.products.push(payload)
   },
-  [types.UPDATE_CATEGORY] (state, payload) {
-    let found = state.categories.find(x => x.id == payload.id);
+  [types.UPDATE_PRODUCT] (state, payload) {
+    let found = state.products.find(x => x.id == payload.id);
     found.name = payload.name
     found.description = payload.description
   },
-  [types.REMOVE_CATEGORIES] (state, payload) {
-    state.categories = state.categories
+  [types.REMOVE_PRODUCTS] (state, payload) {
+    state.products = state.products
       .filter(function(el) {
           return !payload.includes(el.id)
       })
   },
-  [types.CLEAR_CATEGORY] (state) {
-    state.category = {
+  [types.CLEAR_PRODUCT] (state) {
+    state.product = {
       name: '',
       description: ''
     }
@@ -48,16 +48,16 @@ export const mutations = {
 export const actions = {
   async fetchCategories ({ commit }) {
     try {
-      const { data } = await axios.get('/api/categories')
-      commit(types.FETCH_CATEGORIES, data)
+      const { data } = await axios.get('/api/products')
+      commit(types.FETCH_PRODUCTS, data)
     } catch (e) {
       console.log("Error")
     }
   },
   async saveCategory ({ commit, dispatch }, payload) {
     try {
-      const { data } = await axios.post('/api/categories', payload)
-      commit(types.PUSH_CATEGORY, data)
+      const { data } = await axios.post('/api/products', payload)
+      commit(types.PUSH_PRODUCT, data)
 
       dispatch('responseMessage', {
         type: 'success',
@@ -76,8 +76,8 @@ export const actions = {
   async updateCategory ({ commit, dispatch }, payload) {
     try {
 
-      const { data } = await axios.put('/api/categories/' + payload.id, payload)
-      commit(types.UPDATE_CATEGORY, data)
+      const { data } = await axios.put('/api/products/' + payload.id, payload)
+      commit(types.UPDATE_PRODUCT, data)
 
       dispatch('responseMessage', {
         type: 'success',
@@ -94,33 +94,33 @@ export const actions = {
   },
   async deleteCategory ({ commit }, payload) {
     try {
-      let url = '/api/categories/' + payload
+      let url = '/api/products/' + payload
       const { data } = await axios.delete(url)
-      commit(types.REMOVE_CATEGORIES, [payload])
+      commit(types.REMOVE_PRODUCTS, [payload])
     } catch (e) {
       console.log(e.message)
     }
   },
   async deleteCategories ({ commit }, payload) {
     try {
-      let categories = payload.map((el) => { return el.id })
-      const { data } = await axios.post('/api/categories/deleteSelected',
-        { categories : categories})
-      commit(types.REMOVE_CATEGORIES, categories)
+      let products = payload.map((el) => { return el.id })
+      const { data } = await axios.post('/api/products/deleteSelected',
+        { products : products})
+      commit(types.REMOVE_PRODUCTS, products)
     } catch (e) {
       console.log(e.message)
     }
   },
   setCategory ({ commit }, payload) {
-    commit(types.SET_CATEGORY, payload)
+    commit(types.SET_PRODUCT, payload)
   },
   clearCategory ({ commit }) {
-    commit(types.CLEAR_CATEGORY)
+    commit(types.CLEAR_PRODUCT)
   },
 }
 
 // getters
 export const getters = {
-  category: state => state.category,
-  categories: state => state.categories
+  product: state => state.product,
+  products: state => state.products
 }

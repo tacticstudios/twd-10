@@ -1,6 +1,6 @@
 <template>
   <v-toolbar
-      color="blue darken-3"
+      color="green lighten-1"
       dark
       app
       :clipped-left="$vuetify.breakpoint.lgAndUp"
@@ -36,13 +36,8 @@
       <v-btn flat :to="{ name: 'login' }">{{ $t('login') }}</v-btn>
       <v-btn flat :to="{ name: 'register' }">{{ $t('register') }}</v-btn>
     </template>
-    <v-btn icon large>
-      <v-avatar size="32px" tile>
-        <img
-          src="https://vuetifyjs.com/static/doc-images/logo.svg"
-          alt="Vuetify"
-        >
-      </v-avatar>
+    <v-btn icon :to="'landing'">
+      <v-icon>tab</v-icon>
     </v-btn>
   </v-toolbar>
   <!-- <v-toolbar fixed app dark color="primary">

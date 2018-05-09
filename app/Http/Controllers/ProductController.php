@@ -4,9 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Category;
-
-class CategoryController extends Controller
+class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +13,17 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return Category::orderBy('id', 'desc')->get();
+        //
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
     }
 
     /**
@@ -25,11 +33,8 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {   
-        $category = new Category($request->all());
-        if($category->save()) {
-            return $category;
-        }
+    {
+        //
     }
 
     /**
@@ -44,6 +49,17 @@ class CategoryController extends Controller
     }
 
     /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        //
+    }
+
+    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -52,15 +68,7 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $category = new Category($request->all());
-
-        $category_db = Category::find($id);
-        $category_db->name = $category->name;
-        $category_db->description = $category->description;
-
-        if($category_db->save()) {
-            return $category_db;
-        }
+        //
     }
 
     /**
@@ -70,18 +78,7 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {   
-        $category = Category::find($id);
-        $category->delete();
+    {
+        //
     }
-
-    public function deleteSelected(Request $request)
-    {   
-        $categories = $request->input('categories');
-        foreach ($categories as $key => $value) {
-            $category = Category::find($value);
-            $category->delete();
-        }
-    }
-    
 }

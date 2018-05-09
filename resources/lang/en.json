@@ -1,4 +1,6 @@
 {
+  "catalogue": "Catálogo",
+  "projects": "Proyectos",
   "ok": "Ok",
   "close": "Close",
   "cancel": "Cancel",
@@ -38,5 +40,6 @@
   "description": "Description",
   "category_created": "Category created!",
   "category_deleted": "Category deleted!",
-  "categories_deleted": "Categories deleted!"
+  "categories_deleted": "Categories deleted!",
+  "products": "Products"
 }

@@ -3,7 +3,7 @@
     <v-card-title primary-title class="grey lighten-4">
       <v-layout row wrap>
         <v-flex xs12>
-          <h3 class="headline mb-0">{{ $t('categories') }}</h3>
+          <h3 class="headline mb-0">{{ $t('products') }}</h3>
         </v-flex>
         <v-flex xs12 class="text-xs-right">
           <v-btn small fab dark color="primary" @click.stop="createItem()">
@@ -16,14 +16,14 @@
             <v-card>
               <v-form ref="form" v-model="valid" lazy-validation>
                 <v-card-title>
-                  <span class="headline">{{ $t('create') + " " + $t('categories') }}</span>
+                  <span class="headline">{{ $t('create') + " " + $t('products') }}</span>
                 </v-card-title>
                 <v-card-text>
                   <v-container grid-list-md>
                     <v-layout wrap>
                       <v-flex xs12>
                         <v-text-field
-                          v-model="category.name"
+                          v-model="product.name"
                           :rules="nameRules"
                           :label="$t('name')"
                           counter="50"
@@ -32,7 +32,7 @@
                       </v-flex>
                       <v-flex xs12>
                         <v-text-field
-                          v-model="category.description"
+                          v-model="product.description"
                           :label="$t('description')"
                           counter="200"
                           hint="Una pequeña descripción de la categoría"
@@ -57,7 +57,7 @@
     <v-card-text>
       <v-data-table
         :headers="headers"
-        :items="categories"
+        :items="products"
         v-model="selected"
         :loading="busy"
         item-key="id"
@@ -104,9 +104,9 @@
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'categories-view',
+  name: 'products-view',
   metaInfo () {
-    return { title: this.$t('categories') }
+    return { title: this.$t('products') }
   },
   data () {
     return {
@@ -131,17 +131,17 @@ export default {
   },
   computed: {
     ...mapGetters({
-      category: 'categories/category',
-      categories: 'categories/categories'
+      product: 'products/product',
+      products: 'products/products'
     })
   },
   methods: {
     async saveItem () {
       if (this.$refs.form.validate()) {
         this.valid = false
-        let isUpdate = this.category.id !== undefined
-        let action = isUpdate ? 'categories/updateCategory' : 'categories/saveCategory'
-        this.$store.dispatch(action, this.category).then(response => {
+        let isUpdate = this.product.id !== undefined
+        let action = isUpdate ? 'products/updateProduct' : 'products/saveProduct'
+        this.$store.dispatch(action, this.product).then(response => {
           this.closeDialog()
           // this.clearForm()
           this.valid = true
@@ -153,10 +153,10 @@ export default {
     },
     async deleteItem (id) {
       this.busy = true
-      this.$store.dispatch('categories/deleteCategory', id).then(response => {
+      this.$store.dispatch('products/deleteProduct', id).then(response => {
         this.$store.dispatch('responseMessage', {
           type: 'success',
-          text: this.$t('category_deleted')
+          text: this.$t('product_deleted')
         })
         this.busy = false
       }, error => {
@@ -166,11 +166,11 @@ export default {
     },
     async deleteSelected () {
       this.busy = true
-      this.$store.dispatch('categories/deleteCategories', this.selected).then(response => {
+      this.$store.dispatch('products/deleteProducts', this.selected).then(response => {
         this.busy = false
         this.$store.dispatch('responseMessage', {
           type: 'success',
-          text: this.$t('category_deleted')
+          text: this.$t('product_deleted')
         })
       }, error => {
         this.busy = false
@@ -184,22 +184,22 @@ export default {
     },
     fetchItems: function() {
       this.busy = true
-      this.$store.dispatch('categories/fetchCategories').then(response => {
+      this.$store.dispatch('products/fetchProducts').then(response => {
         this.busy = false
       }, error => {
         this.busy = false
       })
     },
     createItem: function() {
-      this.$store.dispatch('categories/clearCategory')
+      this.$store.dispatch('products/clearProduct')
       this.dialog = true
     },
     editItem: function(item) {
-      this.$store.dispatch('categories/setCategory', item)
+      this.$store.dispatch('products/setProduct', item)
       this.dialog = true
     },
     clearItem: function(item) {
-      this.$store.dispatch('categories/clearCategory')
+      this.$store.dispatch('products/clearProduct')
     }
   }
 }
