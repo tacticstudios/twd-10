@@ -22,8 +22,12 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     Route::patch('settings/profile', 'Settings\UpdateProfile');
     Route::patch('settings/password', 'Settings\UpdatePassword');
+
     Route::resource('categories', 'CategoryController');
     Route::post('categories/deleteSelected', 'CategoryController@deleteSelected');
+
+    Route::resource('products', 'ProductController');
+    Route::post('products/deleteSelected', 'ProductController@deleteSelected');
 });
 
 Route::group(['middleware' => 'guest:api'], function () {
@@ -31,5 +35,8 @@ Route::group(['middleware' => 'guest:api'], function () {
     Route::post('register', 'Auth\RegisterController@register');
     Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
     Route::post('password/reset', 'Auth\ResetPasswordController@reset');
-    Route::get('guest/menu', 'GuestController@menu');
+    
 });
+
+Route::get('guest/menu', 'GuestController@menu');
+Route::get('guest/products', 'GuestController@products');

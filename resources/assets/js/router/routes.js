@@ -20,7 +20,7 @@ export default ({ authGuard, guestGuard }) => [
       { path: 'password', name: 'settings.password', component: require('~/pages/settings/password.vue') }
       ] },
       { path: '/categories', name: 'categories', component: require('~/pages/categories/index.vue') },
-      { path: '/products', name: 'categories', component: require('~/pages/products/index.vue') }
+      { path: '/products', name: 'products', component: require('~/pages/products/index.vue') }
   ]),
 
   // Guest routes.

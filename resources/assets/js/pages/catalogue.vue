@@ -12,7 +12,7 @@
                 v-for="item in menus"
                 v-model="item.active"
                 :key="item.title"
-                @click="">
+                @click="fetchProducts(item.id)">
                 <v-list-tile-action>
                   <v-icon color="green">spa</v-icon>
                 </v-list-tile-action>
@@ -26,19 +26,22 @@
         <v-flex sm8 md8 xs12>
           <v-container fluid>
             <v-layout row wrap>
+              <v-flex v-if="empty">
+                <p class="display-2">Sin nada que mostrar :(</p>
+              </v-flex>
               <v-flex
-                v-for="n in 6"
-                :key="n"
                 xs12 sm6 md4
                 class="pr-2 pb-2"
+                v-for="product in products"
+                :key="product.id"
               >
                 <v-card>
                   <v-card-media :src="`https://unsplash.it/150/300?image=${Math.floor(Math.random() * 100) + 1}`" height="150px">
                   </v-card-media>
                   <v-card-title primary-title>
                     <div>
-                      <h3 class="headline mb-0">Kangaroo Valley Safari</h3>
-                      <div>Located two hours south of Sydney in the <br>Southern Highlands of New South Wales, ...</div>
+                      <h3 class="title mb-0"> {{ product.name}} </h3>
+                      <div> {{ product.description }} </div>
                     </div>
                   </v-card-title>
                   <v-card-actions>
@@ -66,26 +69,45 @@ export default {
   computed: mapGetters({
     authenticated: 'authCheck'
   }),
-  data: () => ({
-    // title: window.config.appName
-  }),
   mounted: function () {
     this.fetchItems()
+  },
+  data () {
+    return {
+      empty: false
+    }
   },
   computed: {
     ...mapGetters({
       menus: 'menus',
+      products: 'products',
       quotations: 'quotations'
     })
   },
   methods: {
     async fetchItems() {
-      this.$store.dispatch('fetchMenu').then(response => {
-        console.log("xd")
+      if(this.menus.length == 0) {
+        this.$store.dispatch('fetchMenu').then(response => {
+          if(this.menus.length > 0) {
+            this.fetchProducts(this.menus[0].id)
+          }
+        }, error => {
+          console.log(error)
+        })
+      }
+    },
+    async fetchProducts(id) {
+      await this.$store.dispatch('fetchProducts', id).then(response => {
+        if(this.products.length <= 0) {
+          this.empty = true
+        } else {
+          this.empty = false
+        }
       }, error => {
         console.log(error)
       })
-    }
+
+    },
   }
 }
 </script>

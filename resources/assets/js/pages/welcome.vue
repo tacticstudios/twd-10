@@ -28,7 +28,7 @@
       
       <router-view></router-view>
 
-      <v-footer class="blue darken-2">
+      <v-footer class="blue darken-2" :app="$route.path!=='/' && $route.path!=='/landing'">
         <v-layout row wrap align-center>
           <v-flex xs12>
             <div class="white--text ml-3">

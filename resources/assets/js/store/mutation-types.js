@@ -26,5 +26,5 @@ export const PUSH_PRODUCT = 'PUSH_PRODUCT'
 export const REMOVE_PRODUCTS = 'REMOVE_PRODUCTS'
 export const UPDATE_PRODUCT = 'UPDATE_PRODUCT'
 
-// Menu
+// guest
 export const FETCH_MENUS = 'FETCH_MENUS'

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Product;
+
 class ProductController extends Controller
 {
     /**
@@ -12,18 +14,13 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        //
-    }
+    {   
+        $products = Product::orderBy('id', 'desc')->get();
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        foreach($products as &$product) {
+            $product->category = $product->category;
+        }
+        return $products;
     }
 
     /**
@@ -33,8 +30,12 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        //
+    {   
+        $product = new Product($request->all());
+        if($product->save()) {
+            $product->category = $product->category;
+            return $product;
+        }
     }
 
     /**
@@ -49,17 +50,6 @@ class ProductController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -68,7 +58,18 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $product = new Product($request->all());
+
+        $product_db = Product::find($id);
+        $product_db->name = $product->name;
+        $product_db->description = $product->description;
+        $product_db->amount = $product->amount;
+        $product_db->category_id = $product->category_id;
+
+        if($product_db->save()) {
+            $product_db->category = $product_db->category;
+            return $product_db;
+        }
     }
 
     /**
@@ -78,7 +79,18 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {
-        //
+    {   
+        $product = Product::find($id);
+        $product->delete();
     }
+
+    public function deleteSelected(Request $request)
+    {   
+        $products = $request->input('products');
+        foreach ($products as $key => $value) {
+            $product = Product::find($value);
+            $product->delete();
+        }
+    }
+    
 }

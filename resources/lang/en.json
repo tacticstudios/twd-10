@@ -41,5 +41,7 @@
   "category_created": "Category created!",
   "category_deleted": "Category deleted!",
   "categories_deleted": "Categories deleted!",
-  "products": "Products"
+  "products": "Products",
+  "amount": "Price",
+  "category": "Category"
 }

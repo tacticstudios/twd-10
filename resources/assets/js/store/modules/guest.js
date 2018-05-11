@@ -5,6 +5,7 @@ import * as types from '../mutation-types'
 // state
 export const state = {
   menus: [],
+  products: [],
   quotations: 0
 }
 
@@ -12,6 +13,9 @@ export const state = {
 export const mutations = {
   [types.FETCH_MENUS] (state, payload) {
     state.menus = payload
+  },
+  [types.FETCH_PRODUCTS] (state, payload) {
+    state.products = payload
   },
 }
 
@@ -24,11 +28,20 @@ export const actions = {
     } catch (e) {
       console.log("Error")
     }
+  },
+  async fetchProducts ({ commit }, id) {
+    try {
+      const { data } = await axios.get('/api/guest/products?categoryId=' + id)
+      commit(types.FETCH_PRODUCTS, data)
+    } catch (e) {
+      console.log("Error")
+    }
   }
 }
 
 // getters
 export const getters = {
   menus: state => state.menus,
+  products: state => state.products,
   quotations: state => state.quotations
 }

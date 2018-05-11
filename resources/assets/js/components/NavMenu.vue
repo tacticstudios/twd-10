@@ -90,7 +90,7 @@ export default {
         //   ]
         // },
         { icon: 'phonelink', text: 'Categorias', route: { name: 'categories' } },
-        { icon: 'chat_bubble', text: 'Productos' },
+        { icon: 'chat_bubble', text: 'Productos', route: { name: 'products' } },
         { icon: 'help', text: 'Cotizaciones' },
         { icon: 'keyboard', text: 'Perfil', route: { name: 'settings.profile' } }
       ]

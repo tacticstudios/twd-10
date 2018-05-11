@@ -7,7 +7,9 @@ export const namespaced = true
 export const state = {
   product: {
     name: '',
-    description: ''
+    description: '',
+    amount: '',
+    category_id: ''
   },
   products: []
 }
@@ -18,6 +20,8 @@ export const mutations = {
     state.product.id = payload.id
     state.product.name = payload.name
     state.product.description = payload.description
+    state.product.amount = payload.amount
+    state.product.category_id = payload.category_id
   },
   [types.FETCH_PRODUCTS] (state, payload) {
     state.products = payload
@@ -29,6 +33,8 @@ export const mutations = {
     let found = state.products.find(x => x.id == payload.id);
     found.name = payload.name
     found.description = payload.description
+    found.amount = payload.amount
+    found.category_id = payload.category_id
   },
   [types.REMOVE_PRODUCTS] (state, payload) {
     state.products = state.products
@@ -39,14 +45,15 @@ export const mutations = {
   [types.CLEAR_PRODUCT] (state) {
     state.product = {
       name: '',
-      description: ''
+      description: '',
+      amount: ''
     }
   },
 }
 
 // actions
 export const actions = {
-  async fetchCategories ({ commit }) {
+  async fetchProducts ({ commit }) {
     try {
       const { data } = await axios.get('/api/products')
       commit(types.FETCH_PRODUCTS, data)
@@ -54,14 +61,14 @@ export const actions = {
       console.log("Error")
     }
   },
-  async saveCategory ({ commit, dispatch }, payload) {
+  async saveProduct ({ commit, dispatch }, payload) {
     try {
       const { data } = await axios.post('/api/products', payload)
       commit(types.PUSH_PRODUCT, data)
 
       dispatch('responseMessage', {
         type: 'success',
-        text: 'Category created!'
+        text: 'Product created!'
       }, {root:true})
 
     } catch (e) {
@@ -73,7 +80,7 @@ export const actions = {
       }, {root:true})
     }
   },
-  async updateCategory ({ commit, dispatch }, payload) {
+  async updateProduct ({ commit, dispatch }, payload) {
     try {
 
       const { data } = await axios.put('/api/products/' + payload.id, payload)
@@ -81,7 +88,7 @@ export const actions = {
 
       dispatch('responseMessage', {
         type: 'success',
-        text: 'Category updated!'
+        text: 'Product updated!'
       }, {root:true})
 
     } catch (e) {
@@ -92,7 +99,7 @@ export const actions = {
       }, {root:true})
     }
   },
-  async deleteCategory ({ commit }, payload) {
+  async deleteProduct ({ commit }, payload) {
     try {
       let url = '/api/products/' + payload
       const { data } = await axios.delete(url)
@@ -101,7 +108,7 @@ export const actions = {
       console.log(e.message)
     }
   },
-  async deleteCategories ({ commit }, payload) {
+  async deleteProducts ({ commit }, payload) {
     try {
       let products = payload.map((el) => { return el.id })
       const { data } = await axios.post('/api/products/deleteSelected',
@@ -111,10 +118,10 @@ export const actions = {
       console.log(e.message)
     }
   },
-  setCategory ({ commit }, payload) {
+  setProduct ({ commit }, payload) {
     commit(types.SET_PRODUCT, payload)
   },
-  clearCategory ({ commit }) {
+  clearProduct ({ commit }) {
     commit(types.CLEAR_PRODUCT)
   },
 }

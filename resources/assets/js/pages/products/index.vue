@@ -38,6 +38,23 @@
                           hint="Una pequeña descripción de la categoría"
                         ></v-text-field>
                       </v-flex>
+                      <v-flex xs12>
+                        <v-text-field
+                          v-model="product.amount"
+                          :label="$t('amount')"
+                          suffix="soles"
+                        ></v-text-field>
+                      </v-flex>
+                      <v-flex xs12>
+                        <v-select
+                          v-model="product.category_id"
+                          :items="categories"
+                          item-value="id"
+                          item-text="name"
+                          :label="$t('category')"
+                          single-line
+                        ></v-select>
+                      </v-flex>
                     </v-layout>
                   </v-container>
                   <small>*indicates required field</small>
@@ -86,6 +103,8 @@
           <td>{{ props.item.id }}</td>
           <td>{{ props.item.name }}</td>
           <td>{{ props.item.description }}</td>
+          <td>{{ props.item.amount }}</td>
+          <td>{{ props.item.category !== null ? props.item.category.name : 'N.A'}}</td>
           <td class="justify-center layout px-0">
             <v-btn icon class="mx-0" @click="editItem(props.item)">
               <v-icon color="teal">edit</v-icon>
@@ -121,6 +140,8 @@ export default {
         { text: 'ID', value: 'id'},
         { text: 'Name', value: 'name' },
         { text: 'Description', value: 'description', sortable: false},
+        { text: 'Amount', value: 'amount'},
+        { text: 'Category', value: 'category'},
         { text: 'Actions', value: 'name', sortable: false, width: 20 }
       ],
       valid: true
@@ -132,7 +153,8 @@ export default {
   computed: {
     ...mapGetters({
       product: 'products/product',
-      products: 'products/products'
+      products: 'products/products',
+      categories: 'categories/categories'
     })
   },
   methods: {
@@ -176,6 +198,11 @@ export default {
         this.busy = false
       })
     },
+    async fetchCategories () {
+      if(this.categories.length == 0) {
+        this.$store.dispatch('categories/fetchCategories')
+      }
+    },
     closeDialog: function() {
       this.dialog = false
     },
@@ -191,10 +218,12 @@ export default {
       })
     },
     createItem: function() {
+      this.fetchCategories()
       this.$store.dispatch('products/clearProduct')
       this.dialog = true
     },
     editItem: function(item) {
+      this.fetchCategories()
       this.$store.dispatch('products/setProduct', item)
       this.dialog = true
     },
