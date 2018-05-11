@@ -44,7 +44,6 @@ class ProductController extends Controller
         $product->category_id = $category_id;
 
         if($product->save()) {
-
             if ($request->hasFile('photo')) {
                 $image = $request->file('photo');
                 $fileName = time() . '.' . $image->getClientOriginalExtension();
@@ -63,7 +62,6 @@ class ProductController extends Controller
                 $product_db->photos = $full_url;
                 $product_db->save();
             }
-
             $product->category = $product->category;
             return $product;
         }
@@ -110,8 +108,6 @@ class ProductController extends Controller
         $product_db->category_id = $product->category_id;
 
         if($product_db->save()) {
-            $product_db->category = $product_db->category;
-
             if ($request->hasFile('photo')) {
                 $image = $request->file('photo');
                 $fileName = time() . '.' . $image->getClientOriginalExtension();
@@ -130,7 +126,7 @@ class ProductController extends Controller
                 $product_db->photos = $full_url;
                 $product_db->save();
             }
-
+            $product_db->category = $product_db->category;
             return $product_db;
         }
     }
