@@ -28,3 +28,4 @@ export const UPDATE_PRODUCT = 'UPDATE_PRODUCT'
 
 // guest
 export const FETCH_MENUS = 'FETCH_MENUS'
+export const SET_PHOTO = 'SET_PHOTO'

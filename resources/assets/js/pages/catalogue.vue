@@ -36,7 +36,7 @@
                 :key="product.id"
               >
                 <v-card>
-                  <v-card-media :src="`https://unsplash.it/150/300?image=${Math.floor(Math.random() * 100) + 1}`" height="150px">
+                  <v-card-media :src="'storage/' + product.photos" height="150px">
                   </v-card-media>
                   <v-card-title primary-title>
                     <div>

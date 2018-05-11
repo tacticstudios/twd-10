@@ -28,6 +28,8 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     Route::resource('products', 'ProductController');
     Route::post('products/deleteSelected', 'ProductController@deleteSelected');
+
+    Route::post('files/upload', 'FileController@upload');
 });
 
 Route::group(['middleware' => 'guest:api'], function () {

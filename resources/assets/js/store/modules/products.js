@@ -11,7 +11,8 @@ export const state = {
     amount: '',
     category_id: ''
   },
-  products: []
+  products: [],
+  photo: ''
 }
 
 // mutations
@@ -49,6 +50,9 @@ export const mutations = {
       amount: ''
     }
   },
+  [types.SET_PHOTO] (state, payload) {
+    state.photo = payload
+  },
 }
 
 // actions
@@ -62,8 +66,26 @@ export const actions = {
     }
   },
   async saveProduct ({ commit, dispatch }, payload) {
+    let product = payload.product
+    let photo = payload.photo
+
     try {
-      const { data } = await axios.post('/api/products', payload)
+      // const { data } = await axios.post('/api/products', product)
+      // commit(types.PUSH_PRODUCT, data)
+
+      var formData = new FormData();
+      formData.append("photo", photo);
+      formData.append('name', product.name)
+      formData.append('description', product.description)
+      formData.append('amount', product.amount)
+      formData.append('category_id', product.category_id)
+      // /api/files/upload
+      const { data } = await axios.post('/api/products', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+      })
+
       commit(types.PUSH_PRODUCT, data)
 
       dispatch('responseMessage', {
@@ -81,9 +103,25 @@ export const actions = {
     }
   },
   async updateProduct ({ commit, dispatch }, payload) {
+    let product = payload.product
+    let photo = payload.photo
+
     try {
 
-      const { data } = await axios.put('/api/products/' + payload.id, payload)
+      var formData = new FormData();
+      formData.append("photo", photo);
+      formData.append('name', product.name)
+      formData.append('description', product.description)
+      formData.append('amount', product.amount)
+      formData.append('category_id', product.category_id)
+      formData.append('_method', 'PATCH');
+      // /api/files/upload
+      const { data } = await axios.post('/api/products/' + product.id, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+      })
+
       commit(types.UPDATE_PRODUCT, data)
 
       dispatch('responseMessage', {
@@ -124,10 +162,14 @@ export const actions = {
   clearProduct ({ commit }) {
     commit(types.CLEAR_PRODUCT)
   },
+  setPhoto ({ commit }, payload) {
+    commit(types.SET_PHOTO, payload)
+  },
 }
 
 // getters
 export const getters = {
   product: state => state.product,
-  products: state => state.products
+  products: state => state.products,
+  photo: state => state.photo,
 }

@@ -31,8 +31,39 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {   
-        $product = new Product($request->all());
+        $name = $request->name;
+        $description = $request->description;
+        $amount = $request->amount;
+        $category_id = $request->category_id;
+        $photo = $request->photo;
+
+        $product = new Product();
+        $product->name = $name;
+        $product->description = $description;
+        $product->amount = $amount;
+        $product->category_id = $category_id;
+
         if($product->save()) {
+
+            if ($request->hasFile('photo')) {
+                $image = $request->file('photo');
+                $fileName = time() . '.' . $image->getClientOriginalExtension();
+    
+                $img = \Image::make($image->getRealPath());
+                $img->resize(120, 120, function ($constraint) {
+                    $constraint->aspectRatio();                 
+                });
+    
+                $img->stream(); // <-- Key point
+    
+                //dd();
+                $full_url = 'images/1/smalls'.'/'.$fileName;
+                \Storage::disk('public')->put($full_url, $img);
+
+                $product_db->photos = $full_url;
+                $product_db->save();
+            }
+
             $product->category = $product->category;
             return $product;
         }
@@ -58,7 +89,19 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $product = new Product($request->all());
+        
+        $name = $request->name;
+        $description = $request->description;
+        $amount = $request->amount;
+        $category_id = $request->category_id;
+        $photo = $request->photo;
+
+        $product = new Product();
+        $product->name = $name;
+        $product->description = $description;
+        $product->amount = $amount;
+        $product->category_id = $category_id;
+
 
         $product_db = Product::find($id);
         $product_db->name = $product->name;
@@ -68,6 +111,26 @@ class ProductController extends Controller
 
         if($product_db->save()) {
             $product_db->category = $product_db->category;
+
+            if ($request->hasFile('photo')) {
+                $image = $request->file('photo');
+                $fileName = time() . '.' . $image->getClientOriginalExtension();
+    
+                $img = \Image::make($image->getRealPath());
+                $img->resize(120, 120, function ($constraint) {
+                    $constraint->aspectRatio();                 
+                });
+    
+                $img->stream(); // <-- Key point
+    
+                //dd();
+                $full_url = 'images/1/smalls'.'/'.$fileName;
+                \Storage::disk('public')->put($full_url, $img);
+
+                $product_db->photos = $full_url;
+                $product_db->save();
+            }
+
             return $product_db;
         }
     }
