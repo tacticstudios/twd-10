@@ -17,6 +17,9 @@ class CreateCategoriesTable extends Migration
             $table->increments('id');
             $table->string('name', 50);
             $table->text('description')->nullable();
+            $table->text('photos')->nullable();
+            $table->unsignedTinyInteger('flex')->nullable()->default(4);
+            $table->unsignedTinyInteger('parent_id')->default(0);
             $table->timestamps();
             $table->unsignedTinyInteger('is_active')->default(1);
             $table->softDeletes();

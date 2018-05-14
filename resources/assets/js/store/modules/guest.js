@@ -6,7 +6,7 @@ import * as types from '../mutation-types'
 export const state = {
   menus: [],
   products: [],
-  quotations: 0
+  quotations: 4
 }
 
 // mutations

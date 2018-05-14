@@ -19,8 +19,9 @@ class CreateProductsTable extends Migration
             $table->string('short_name', 50)->nullable();
             $table->text('description')->nullable();
             $table->decimal('amount',8,2)->unsigned()->nullable();
-            $table->integer('category_id')->unsigned()->nullable();;
-            $table->text('photos')->nullable();;
+            $table->integer('category_id')->unsigned()->nullable();
+            $table->text('photos')->nullable();
+            $table->unsignedTinyInteger('flex')->nullable();
             $table->timestamps();
             $table->unsignedTinyInteger('is_active')->default(1);
             $table->softDeletes();

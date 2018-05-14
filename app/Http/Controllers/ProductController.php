@@ -59,8 +59,8 @@ class ProductController extends Controller
                 $full_url = 'images/1/smalls'.'/'.$fileName;
                 \Storage::disk('public')->put($full_url, $img);
 
-                $product_db->photos = $full_url;
-                $product_db->save();
+                $product->photos = $full_url;
+                $product->save();
             }
             $product->category = $product->category;
             return $product;
@@ -87,7 +87,6 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
         $name = $request->name;
         $description = $request->description;
         $amount = $request->amount;

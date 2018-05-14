@@ -26,8 +26,34 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {   
-        $category = new Category($request->all());
+        $category = new Category();
+        $category->name = $request->name;
+        $category->description = $request->description;
+        // $category->parent_id = $request->parent_id;
+        $category->photos = $request->photos;
+
         if($category->save()) {
+            if ($request->hasFile('photo')) {
+                $image = $request->file('photo');
+                $fileName = time() . '.' . $image->getClientOriginalExtension();
+    
+                $img = \Image::make($image->getRealPath());
+                $img->resize(120, 120, function ($constraint) {
+                    $constraint->aspectRatio();                 
+                });
+    
+                $img->stream(); // <-- Key point
+    
+                //dd();
+                $full_url = 'images/1/smalls'.'/'.$fileName;
+                \Storage::disk('public')->put($full_url, $img);
+
+                $category->photos = $full_url;
+                $category->save();
+            }
+
+            // $category->category = $category->category;
+            
             return $category;
         }
     }
@@ -52,13 +78,32 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $category = new Category($request->all());
-
         $category_db = Category::find($id);
-        $category_db->name = $category->name;
-        $category_db->description = $category->description;
+        $category_db->name = $request->name;
+        $category_db->description = $request->description;
+        // $category_db->parent_id = $request->parent_id;
+        $category_db->photos = $request->photos;
 
         if($category_db->save()) {
+            if ($request->hasFile('photos')) {
+                $image = $request->file('photos');
+                $fileName = time() . '.' . $image->getClientOriginalExtension();
+    
+                $img = \Image::make($image->getRealPath());
+                $img->resize(120, 120, function ($constraint) {
+                    $constraint->aspectRatio();                 
+                });
+    
+                $img->stream(); // <-- Key point
+    
+                //dd();
+                $full_url = 'images/1/smalls'.'/'.$fileName;
+                \Storage::disk('public')->put($full_url, $img);
+
+                $category_db->photos = $full_url;
+                $category_db->save();
+            }
+            $category_db->category = $category_db->category;
             return $category_db;
         }
     }
