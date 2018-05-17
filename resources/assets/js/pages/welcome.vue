@@ -16,7 +16,7 @@
           </v-badge>
         </v-btn>
       </router-link>
-      <v-btn icon :to="'login'">
+      <v-btn icon :to="'/login'">
         <v-icon class="green--text">perm_identity</v-icon>
       </v-btn>
     </v-toolbar>
