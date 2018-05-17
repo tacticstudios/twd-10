@@ -1,8 +1,17 @@
 <template>
   <div>
     <section>
+      <v-carousel>
+        <v-carousel-item
+          v-for="(item,i) in items"
+          :key="i"
+          :src="item.src"
+          transition="fade"
+          reverse-transition="fade"
+        ></v-carousel-item>
+      </v-carousel>
         <!-- src="img/fondo_1.jpg" -->
-        <v-parallax  src="img/fondo_3.jpg" height="600">
+        <!-- <v-parallax  src="img/fondo_3.jpg" height="600">
           <v-layout
             column
             align-center
@@ -19,7 +28,7 @@
               Catálogo
             </v-btn>
           </v-layout>
-        </v-parallax>
+        </v-parallax> -->
       </section>
 
       <section>
@@ -90,8 +99,7 @@
       </section>
 
       <section>
-        <v-parallax src="img/fondo_2.png" height="auto">
-          <v-container fluid grid-list-md>
+        <v-container grid-list-md>
             <h2>Nuestras Categorías</h2>
           <v-layout row wrap>
             <v-flex
@@ -127,7 +135,12 @@
               </v-card>
             </v-flex>
           </v-layout>
-        </v-container>
+        </v-container>  
+      </section>
+
+      <section>
+        <v-parallax src="img/fondo_2.png" height="auto">
+          asd
         </v-parallax>
       </section>
 
@@ -227,6 +240,20 @@ export default {
   data: () => ({
     // title: window.config.appName
     title: 'ITAGRIF',
+    items: [
+          {
+            src: '/static/doc-images/carousel/squirrel.jpg'
+          },
+          {
+            src: '/static/doc-images/carousel/sky.jpg'
+          },
+          {
+            src: '/static/doc-images/carousel/bird.jpg'
+          },
+          {
+            src: '/static/doc-images/carousel/planet.jpg'
+          }
+        ],
     cards: [
         { title: 'Favorite road trips', src: '/static/doc-images/cards/house.jpg', flex: 4 },
         { title: 'Favorite road trips', src: '/static/doc-images/cards/road.jpg', flex: 4 },

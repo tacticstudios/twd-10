@@ -56,17 +56,43 @@
                         ></v-select>
                       </v-flex>
                       <v-flex xs12>
-                        <img :src="imageUrl" height="150" v-if="imageUrl"/>
+                        <v-list depressed two-line>
+                          <template>
+                            <v-subheader>Fotos</v-subheader>
+                            <v-divider></v-divider>
+                            <v-list-tile v-for="(attachment,i) in attachments" :key="i" avatar @click="">
+                              <v-list-tile-avatar>
+                                <img :src="attachment.imageUrl">
+                              </v-list-tile-avatar>
+                              <v-list-tile-content>
+                                <v-list-tile-title v-html="attachment.name"></v-list-tile-title>
+                                <v-list-tile-sub-title>
+                                  <v-btn
+                                    color="red"
+                                    fab
+                                    dark
+                                    small
+                                    absolute
+                                    top
+                                    right
+                                  ><v-icon>remove</v-icon>
+                                  </v-btn>
+                                </v-list-tile-sub-title>
+                              </v-list-tile-content>
+                            </v-list-tile>
+                          </template>
+                        </v-list>
                         <v-text-field label="Select Image" @click='pickFile' v-model='imageName' prepend-icon='attach_file'></v-text-field>
                         <input
+                          multiple="multiple"
+                          id="attachments"
                           type="file"
                           style="display: none"
                           ref="image"
                           accept="image/*"
-                          @change="onFilePicked"
+                          @change="uploadFieldChange"
                         >
                       </v-flex>
-                      
                     </v-layout>
                   </v-container>
                   <small>*indicates required field</small>
@@ -159,7 +185,9 @@ export default {
       valid: true,
       imageName: '',
       imageUrl: '',
-      imageFile: ''
+      imageFile: '',
+      attachments: [],
+      data: new FormData(),
     }
   },
   mounted: function () {
@@ -252,27 +280,69 @@ export default {
     pickFile () {
       this.$refs.image.click ()
     },
-    onFilePicked (e) {
-			const files = e.target.files
-			if(files[0] !== undefined) {
-				this.imageName = files[0].name
-				if(this.imageName.lastIndexOf('.') <= 0) {
-					return
-				}
-				const fr = new FileReader ()
-				fr.readAsDataURL(files[0])
-				fr.addEventListener('load', () => {
-          this.imageUrl = fr.result
-          this.imageFile = files[0] // this is an image file that can be sent to server...
-          this.$store.dispatch('products/setPhoto', this.imageFile)
-				})
-			} else {
-				this.imageName = ''
-				this.imageFile = ''
-        this.imageUrl = ''
-        this.$store.dispatch('products/setPhoto', this.imageFile)
+    // onFilePicked (e) {
+		// 	const files = e.target.files
+		// 	if(files[0] !== undefined) {
+		// 		this.imageName = files[0].name
+		// 		if(this.imageName.lastIndexOf('.') <= 0) {
+		// 			return
+		// 		}
+		// 		const fr = new FileReader ()
+		// 		fr.readAsDataURL(files[0])
+		// 		fr.addEventListener('load', () => {
+    //       this.imageUrl = fr.result
+    //       this.imageFile = files[0] // this is an image file that can be sent to server...
+    //       this.$store.dispatch('products/setPhoto', this.imageFile)
+		// 		})
+		// 	} else {
+		// 		this.imageName = ''
+		// 		this.imageFile = ''
+    //     this.imageUrl = ''
+    //     this.$store.dispatch('products/setPhoto', this.imageFile)
+    //   }
+    // },
+    uploadFieldChange(e) {
+      var files = e.target.files || e.dataTransfer.files;
+      if (!files.length)
+          return;
+
+      var picReader = []
+      console.log(files.length)
+      for (var i = files.length - 1; i >= 0; i--) {
+        var file = files[i];
+          picReader[i] = new FileReader();
+          picReader[i].addEventListener("load", (e) => {
+              // var picFile = event.target
+              file.imageUrl = e.target.result
+              console.log(file.imageUrl)
+              this.attachments.push(file);
+          });
+          //Read the image
+          picReader[i].readAsDataURL(file);
+          
       }
-		}
+      // Reset the form to avoid copying these files multiple times into this.attachments
+      document.getElementById("attachments").value = [];
+    },
+    prepareFields () {
+        if (this.attachments.length > 0) {
+            for (var i = 0; i < this.attachments.length; i++) {
+                let attachment = this.attachments[i];
+                this.data.append('attachments[]', attachment);
+            }
+        }
+    },
+    removeAttachment(attachment) {
+        this.attachments.splice(this.attachments.indexOf(attachment), 1);
+        this.getAttachmentSize();
+    },
+    getAttachmentSize() {    
+        this.upload_size = 0; // Reset to beginningƒ
+        this.attachments.map((item) => { this.upload_size += parseInt(item.size); });
+        
+        this.upload_size = Number((this.upload_size).toFixed(1));
+        this.$forceUpdate();
+    },
   }
 }
 </script>
