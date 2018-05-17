@@ -1,27 +1,5 @@
 <template>
   <div>
-    <section>
-        <!-- src="img/fondo_1.jpg" -->
-        <v-parallax  src="img/fondo_3.jpg" height="600">
-          <v-layout
-            column
-            align-center
-            justify-center
-            class="black--text"
-          >
-            <img src="img/logo_o.png" alt="itagrif" height="200">
-            <v-btn
-              class="green lighten-2 mt-5"
-              dark
-              large
-              href="/pre-made-themes"
-            >
-              Catálogo
-            </v-btn>
-          </v-layout>
-        </v-parallax>
-      </section>
-
       <section>
         <v-layout
           column
@@ -90,45 +68,40 @@
       </section>
 
       <section>
-        <v-parallax src="img/fondo_2.png" height="auto">
-          <v-container fluid grid-list-md>
+        <v-container grid-list-md>
             <h2>Nuestras Categorías</h2>
           <v-layout row wrap>
             <v-flex
-              v-for="card in cards"
+              v-for="(card, index) in menus"
               v-bind="{ [`md${card.flex}`]: true }"
-              :key="card.title"
+              :key="index"
             >
               <v-card>
                 <v-card-media
-                  :src="card.src"
+                  :src="'storage/' + card.photos"
                   height="200px"
                 >
-                  <v-container fill-height fluid>
-                    <v-layout fill-height>
-                      <v-flex xs12 align-end flexbox>
-                        <span class="headline white--text" v-text="card.title"></span>
-                      </v-flex>
-                    </v-layout>
-                  </v-container>
+                <v-container fill-height fluid>
+                  <v-layout fill-height>
+                    <v-flex xs12 align-end flexbox>
+                      <span class="headline white--text" v-text="card.name"></span>
+                    </v-flex>
+                  </v-layout>
+                </v-container>
                 </v-card-media>
                 <v-card-actions>
+                  <v-btn flat>
+                    {{ card.name }}
+                  </v-btn>
                   <v-spacer></v-spacer>
-                  <v-btn icon>
-                    <v-icon>favorite</v-icon>
-                  </v-btn>
-                  <v-btn icon>
-                    <v-icon>bookmark</v-icon>
-                  </v-btn>
-                  <v-btn icon>
-                    <v-icon>share</v-icon>
+                  <v-btn flat class="green--text">
+                    Ver
                   </v-btn>
                 </v-card-actions>
               </v-card>
             </v-flex>
           </v-layout>
         </v-container>
-        </v-parallax>
       </section>
 
       <section>
@@ -136,13 +109,8 @@
           <v-layout row wrap justify-center class="my-5">
             <v-flex xs12 sm4>
               <v-card class="elevation-0 transparent">
-                <v-card-title primary-title class="layout justify-center">
-                  <div class="headline">Company info</div>
-                </v-card-title>
                 <v-card-text>
-                  Cras facilisis mi vitae nunc lobortis pharetra. Nulla volutpat tincidunt ornare. 
-                  Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. 
-                  Nullam in aliquet odio. Aliquam eu est vitae tellus bibendum tincidunt. Suspendisse potenti. 
+                  <img src="img/bomba.png" alt=""> 
                 </v-card-text>
               </v-card>
             </v-flex>
@@ -221,20 +189,26 @@ export default {
   metaInfo () {
     return { title: this.$t('home') }
   },
+  mounted: function () {
+    this.fetchItems()
+  },
   computed: mapGetters({
-    authenticated: 'authCheck'
+    authenticated: 'authCheck',
+    menus: 'menus',
+    products: 'products',
+    quotations: 'quotations'
   }),
   data: () => ({
     // title: window.config.appName
     title: 'ITAGRIF',
-    cards: [
-        { title: 'Favorite road trips', src: '/static/doc-images/cards/house.jpg', flex: 4 },
-        { title: 'Favorite road trips', src: '/static/doc-images/cards/road.jpg', flex: 4 },
-        { title: 'Favorite road trips', src: '/static/doc-images/cards/plane.jpg', flex: 4 },
-        { title: 'Favorite road trips', src: '/static/doc-images/cards/house.jpg', flex: 4 },
-        { title: 'Favorite road trips', src: '/static/doc-images/cards/road.jpg', flex: 4 },
-        { title: 'Favorite road trips', src: '/static/doc-images/cards/plane.jpg', flex: 4 }
-      ]
-  })
+    
+  }),
+  methods: {
+    async fetchItems() {
+      if(this.menus.length == 0) {
+        this.$store.dispatch('fetchMenu')
+      }
+    },
+  }
 }
 </script>

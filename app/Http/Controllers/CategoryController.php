@@ -82,15 +82,14 @@ class CategoryController extends Controller
         $category_db->name = $request->name;
         $category_db->description = $request->description;
         // $category_db->parent_id = $request->parent_id;
-        $category_db->photos = $request->photos;
 
         if($category_db->save()) {
-            if ($request->hasFile('photos')) {
-                $image = $request->file('photos');
+            if ($request->hasFile('photo')) {
+                $image = $request->file('photo');
                 $fileName = time() . '.' . $image->getClientOriginalExtension();
     
                 $img = \Image::make($image->getRealPath());
-                $img->resize(120, 120, function ($constraint) {
+                $img->resize(300, 200, function ($constraint) {
                     $constraint->aspectRatio();                 
                 });
     
@@ -103,7 +102,7 @@ class CategoryController extends Controller
                 $category_db->photos = $full_url;
                 $category_db->save();
             }
-            $category_db->category = $category_db->category;
+            // $category_db->category = $category_db->category;
             return $category_db;
         }
     }

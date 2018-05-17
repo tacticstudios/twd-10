@@ -6,7 +6,10 @@ export default ({ authGuard, guestGuard }) => [
       { path: '', redirect: { name: 'landing' } },
       { path: 'landing', name: 'landing', component: require('~/pages/landing.vue') },
       { path: 'catalogue', name: 'catalogue', component: require('~/pages/catalogue.vue') },
-      { path: 'projects', name: 'projects', component: require('~/pages/projects.vue') }
+      { path: 'projects', name: 'projects', component: require('~/pages/projects.vue') },
+      { path: 'about', name: 'about', component: require('~/pages/about.vue') },
+      { path: 'contact', name: 'contact', component: require('~/pages/contact.vue') },
+      { path: 'product/:id', name: 'product', component: require('~/pages/product.vue') }
       ] },
 
   // Authenticated routes.

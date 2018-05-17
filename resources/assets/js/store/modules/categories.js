@@ -9,7 +9,8 @@ export const state = {
     name: '',
     description: ''
   },
-  categories: []
+  categories: [],
+  photo: '',
 }
 
 // mutations
@@ -42,6 +43,9 @@ export const mutations = {
       description: ''
     }
   },
+  [types.SET_PHOTO] (state, payload) {
+    state.photo = payload
+  },
 }
 
 // actions
@@ -55,8 +59,21 @@ export const actions = {
     }
   },
   async saveCategory ({ commit, dispatch }, payload) {
+    let category = payload.category
+    let photo = payload.photo
+
     try {
-      const { data } = await axios.post('/api/categories', payload)
+      var formData = new FormData();
+      formData.append("photo", photo);
+      formData.append('name', category.name)
+      formData.append('description', category.description)
+      // /api/files/upload
+      const { data } = await axios.post('/api/categories', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+      })
+
       commit(types.PUSH_CATEGORY, data)
 
       dispatch('responseMessage', {
@@ -74,9 +91,23 @@ export const actions = {
     }
   },
   async updateCategory ({ commit, dispatch }, payload) {
+    let category = payload.category
+    let photo = payload.photo
+
     try {
 
-      const { data } = await axios.put('/api/categories/' + payload.id, payload)
+      var formData = new FormData();
+      formData.append("photo", photo);
+      formData.append('name', category.name)
+      formData.append('description', category.description)
+      formData.append('_method', 'PATCH');
+      // /api/files/upload
+      const { data } = await axios.post('/api/categories/' + category.id, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+      })
+
       commit(types.UPDATE_CATEGORY, data)
 
       dispatch('responseMessage', {
@@ -117,10 +148,14 @@ export const actions = {
   clearCategory ({ commit }) {
     commit(types.CLEAR_CATEGORY)
   },
+  setPhoto ({ commit }, payload) {
+    commit(types.SET_PHOTO, payload)
+  },
 }
 
 // getters
 export const getters = {
   category: state => state.category,
-  categories: state => state.categories
+  categories: state => state.categories,
+  photo: state => state.photo,
 }

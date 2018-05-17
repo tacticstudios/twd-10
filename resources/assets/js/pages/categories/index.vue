@@ -12,7 +12,7 @@
           <v-btn small fab dark color="pink" @click.stop="deleteSelected()">
             <v-icon>delete</v-icon>
           </v-btn>
-          <v-dialog v-model="dialog" scrollable max-width="500">
+          <v-dialog v-model="dialog" max-width="500">
             <v-card>
               <v-form ref="form" v-model="valid" lazy-validation>
                 <v-card-title>
@@ -37,6 +37,17 @@
                           counter="200"
                           hint="Una pequeña descripción de la categoría"
                         ></v-text-field>
+                      </v-flex>
+                      <v-flex xs12>
+                        <img :src="imageUrl" height="150" v-if="imageUrl"/>
+                        <v-text-field label="Select Image" @click='pickFile' v-model='imageName' prepend-icon='attach_file'></v-text-field>
+                        <input
+                          type="file"
+                          style="display: none"
+                          ref="image"
+                          accept="image/*"
+                          @change="onFilePicked"
+                        >
                       </v-flex>
                     </v-layout>
                   </v-container>
@@ -123,7 +134,10 @@ export default {
         { text: 'Description', value: 'description', sortable: false},
         { text: 'Actions', value: 'name', sortable: false, width: 20 }
       ],
-      valid: true
+      valid: true,
+      imageName: '',
+      imageUrl: '',
+      imageFile: ''
     }
   },
   mounted: function () {
@@ -132,7 +146,8 @@ export default {
   computed: {
     ...mapGetters({
       category: 'categories/category',
-      categories: 'categories/categories'
+      categories: 'categories/categories',
+      photo: 'categories/photo'
     })
   },
   methods: {
@@ -141,7 +156,7 @@ export default {
         this.valid = false
         let isUpdate = this.category.id !== undefined
         let action = isUpdate ? 'categories/updateCategory' : 'categories/saveCategory'
-        this.$store.dispatch(action, this.category).then(response => {
+        this.$store.dispatch(action, { category: this.category, photo: this.photo }).then(response => {
           this.closeDialog()
           // this.clearForm()
           this.valid = true
@@ -200,7 +215,31 @@ export default {
     },
     clearItem: function(item) {
       this.$store.dispatch('categories/clearCategory')
-    }
+    },
+    pickFile () {
+      this.$refs.image.click ()
+    },
+    onFilePicked (e) {
+			const files = e.target.files
+			if(files[0] !== undefined) {
+				this.imageName = files[0].name
+				if(this.imageName.lastIndexOf('.') <= 0) {
+					return
+				}
+				const fr = new FileReader ()
+				fr.readAsDataURL(files[0])
+				fr.addEventListener('load', () => {
+          this.imageUrl = fr.result
+          this.imageFile = files[0] // this is an image file that can be sent to server...
+          this.$store.dispatch('categories/setPhoto', this.imageFile)
+				})
+			} else {
+				this.imageName = ''
+				this.imageFile = ''
+        this.imageUrl = ''
+        this.$store.dispatch('categories/setPhoto', this.imageFile)
+      }
+		}
   }
 }
 </script>

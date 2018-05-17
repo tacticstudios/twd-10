@@ -1,7 +1,6 @@
 <template>
   <div>
-    <v-toolbar dense prominent>
-      <v-toolbar-side-icon class="green--text"></v-toolbar-side-icon>
+    <v-toolbar dense prominent app fixed>
       <v-toolbar-title>
         <a href="landing">
           <img src="img/logotipo_o.png" alt="ITAGRIF" height="24">
@@ -9,8 +8,6 @@
         </a>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <router-link to="/catalogue"><v-btn flat>Catálogo</v-btn></router-link>
-      <router-link to="/projects"><v-btn flat>Proyectos</v-btn></router-link>
       <router-link to="/projects">
         <v-btn flat>
           <v-badge color="green">
@@ -19,13 +16,62 @@
           </v-badge>
         </v-btn>
       </router-link>
-      <v-btn flat>Pagos</v-btn>
       <v-btn icon :to="'login'">
         <v-icon class="green--text">perm_identity</v-icon>
       </v-btn>
     </v-toolbar>
+
     <v-content>
-      
+      <section v-if="['landing'].indexOf($route.name) > -1">
+        <v-carousel hide-delimiters>
+          <v-carousel-item
+            v-for="(item,i) in items"
+            :key="i"
+            :src="item.src"
+            transition="fade"
+            reverse-transition="fade"
+          >
+          <v-jumbotron dark>
+            <v-container fill-height>
+              <v-layout align-center>
+                <v-flex>
+                  <h3 class="display-3">{{ item.title }}</h3>
+                  <span class="subheading">{{ item.text }}</span>
+                </v-flex>
+              </v-layout>
+            </v-container>
+          </v-jumbotron>
+          </v-carousel-item>
+        </v-carousel>
+      </section>
+
+
+    <section v-if="['landing'].indexOf($route.name) <= -1">
+      <v-parallax  src="img/fondo2.jpg" height="230">
+        <v-layout
+          column
+          align-center
+          justify-center
+          class="black--text"
+        >
+        <img src="img/logo_o.png" alt="itagrif" height="200">
+        </v-layout>
+      </v-parallax>
+    </section>
+
+    <section>
+      <v-toolbar prominent dark color="green">
+        <v-spacer></v-spacer>
+        <v-toolbar-items class="hidden-sm-and-down">
+          <v-btn flat to="/about">Empresa</v-btn>
+          <v-btn flat to="/catalogue">Productos</v-btn>
+          <v-btn flat to="/asd">Servicios</v-btn>
+          <v-btn flat to="/cataclogue">Ofertas</v-btn>
+          <v-btn flat to="/contact">Contactos</v-btn>
+        </v-toolbar-items>
+      </v-toolbar>
+    </section>
+
       <router-view></router-view>
 
       <v-footer class="blue darken-2" :app="$route.path!=='/' && $route.path!=='/landing'">
@@ -61,7 +107,42 @@ export default {
 
   data: () => ({
     // title: window.config.appName
-    title: 'ITAGRIF'
+    title: 'ITAGRIF',
+    items: [
+          {
+            title: 'Riego por Aspersión',
+            text: 'asjdajsdhjasdjasd',
+            src: 'img/slide1.jpg'
+          },
+          {
+            title: 'Riego por Goteo',
+            text: 'Badasdasdadsdas',
+            src: 'img/slide2.jpg'
+          },
+          {
+            title: 'Fumigación',
+            text: 'Casdasdasd',
+            src: 'img/slide3.jpg'
+          },
+          {
+            title: 'Equip. ',
+            text: 'Casdasdasd',
+            src: 'img/slide4.jpg'
+          },
+        ]
   })
 }
 </script>
+
+<style lang="stylus">
+  #example-custom-transition
+    .fade
+      &-enter-active, &-leave-active, &-leave-to
+        transition: .3s ease-out
+        position: absolute
+        top: 0
+        left: 0
+
+      &-enter, &-leave, &-leave-to
+        opacity: 0
+</style>

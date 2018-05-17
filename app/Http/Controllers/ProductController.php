@@ -49,7 +49,7 @@ class ProductController extends Controller
                 $fileName = time() . '.' . $image->getClientOriginalExtension();
     
                 $img = \Image::make($image->getRealPath());
-                $img->resize(120, 120, function ($constraint) {
+                $img->resize(250, 250, function ($constraint) {
                     $constraint->aspectRatio();                 
                 });
     
@@ -112,7 +112,7 @@ class ProductController extends Controller
                 $fileName = time() . '.' . $image->getClientOriginalExtension();
     
                 $img = \Image::make($image->getRealPath());
-                $img->resize(120, 120, function ($constraint) {
+                $img->resize(250, 250, function ($constraint) {
                     $constraint->aspectRatio();                 
                 });
     

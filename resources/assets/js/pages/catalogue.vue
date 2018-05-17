@@ -45,7 +45,7 @@
                     </div>
                   </v-card-title>
                   <v-card-actions>
-                    <v-btn flat color="green">Cotizar</v-btn>
+                    <v-btn flat color="green" :to="'product/' + product.id">Cotizar</v-btn>
                   </v-card-actions>
                 </v-card>
               </v-flex>
