@@ -1,5 +1,42 @@
 <template>
   <div>
+     <section>
+        <v-container grid-list-md mt-5>
+            <h2 class="display-2">RIEGO TECNIFICADO</h2>
+          <v-layout row wrap>
+            <v-flex
+              v-for="(card, index) in menus"
+              v-bind="{ [`md${card.flex}`]: true }"
+              :key="index"
+            >
+              <v-card>
+                <v-card-media
+                  :src="'storage/' + card.photos"
+                  height="200px"
+                >
+                <v-container fill-height fluid>
+                  <v-layout fill-height>
+                    <v-flex xs12 align-end flexbox>
+                      <span class="headline white--text" v-text="card.name"></span>
+                    </v-flex>
+                  </v-layout>
+                </v-container>
+                </v-card-media>
+                <v-card-actions>
+                  <v-btn flat>
+                    {{ card.name }}
+                  </v-btn>
+                  <v-spacer></v-spacer>
+                  <v-btn flat class="green--text">
+                    Ver
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-flex>
+          </v-layout>
+        </v-container>
+      </section>
+
     <v-container>
       <v-layout row wrap>
         <v-flex xs12 sm4 md4 lg4 mt-3>
