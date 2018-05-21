@@ -2,8 +2,8 @@
   <div>
     <v-toolbar dense prominent app fixed>
       <v-toolbar-title>
-        <a href="landing">
-          <img src="img/logotipo_o.png" alt="ITAGRIF" height="24">
+        <a href="/landing">
+          <img src="/img/logotipo_o.png" alt="ITAGRIF" height="24">
           <span class="green--text">ITAGRIF</span>
         </a>
       </v-toolbar-title>
@@ -47,14 +47,14 @@
 
 
     <section v-if="['landing'].indexOf($route.name) <= -1">
-      <v-parallax  src="img/fondo2.jpg" height="230">
+      <v-parallax  src="/img/fondo2.jpg" height="230">
         <v-layout
           column
           align-center
           justify-center
           class="black--text"
         >
-        <img src="img/logo_o.png" alt="itagrif" height="200">
+        <img src="/img/logo_o.png" alt="itagrif" height="200">
         </v-layout>
       </v-parallax>
     </section>

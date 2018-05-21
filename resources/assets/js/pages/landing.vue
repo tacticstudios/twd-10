@@ -75,26 +75,27 @@
               v-for="(card, index) in menus"
               v-bind="{ [`md${card.flex}`]: true }"
               :key="index"
+              v-if="card.parent_id == 0"
             >
               <v-card>
                 <v-card-media
                   :src="'storage/' + card.photos"
                   height="200px"
                 >
-                <v-container fill-height fluid>
+                <!-- <v-container fill-height fluid>
                   <v-layout fill-height>
                     <v-flex xs12 align-end flexbox>
                       <span class="headline white--text" v-text="card.name"></span>
                     </v-flex>
                   </v-layout>
-                </v-container>
+                </v-container> -->
                 </v-card-media>
                 <v-card-actions>
-                  <v-btn flat>
+                  <v-btn flat :to="'/category/' + card.id">
                     {{ card.name }}
                   </v-btn>
                   <v-spacer></v-spacer>
-                  <v-btn flat class="green--text">
+                  <v-btn flat class="green--text" :to="'/category/' + card.id">
                     Ver
                   </v-btn>
                 </v-card-actions>
@@ -120,7 +121,7 @@
                   <div class="headline">Contáctanos</div>
                 </v-card-title>
                 <v-card-text>
-                  Cras facilisis mi vitae nunc lobortis pharetra. Nulla volutpat tincidunt ornare.
+                  Puedes contactarnos de muchas formas!
                 </v-card-text>
                 <v-list class="transparent">
                   <v-list-tile>
@@ -144,7 +145,7 @@
                       <v-icon class="blue--text text--lighten-2">phone</v-icon>
                     </v-list-tile-action>
                     <v-list-tile-content>
-                      <v-list-tile-title>Nextel 418*5916</v-list-tile-title>
+                      <v-list-tile-title>Movistar 942930520</v-list-tile-title>
                     </v-list-tile-content>
                   </v-list-tile>
                   <v-list-tile>
@@ -152,7 +153,7 @@
                       <v-icon class="blue--text text--lighten-2">phone</v-icon>
                     </v-list-tile-action>
                     <v-list-tile-content>
-                      <v-list-tile-title>RPM #300306</v-list-tile-title>
+                      <v-list-tile-title>Whatsapp #300306</v-list-tile-title>
                     </v-list-tile-content>
                   </v-list-tile>
                   <v-list-tile>

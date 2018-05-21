@@ -15,7 +15,17 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return Category::orderBy('id', 'desc')->get();
+        $categories =  Category::orderBy('id', 'desc')->get();
+
+        foreach ($categories as $key => &$category) {
+            if($category->parent_id != 0 || $category->parent_id != null) {
+                $parent = Category::find($category->parent_id);
+                $category->parent = $parent;
+            }
+        }
+
+        return $categories;
+
     }
 
     /**
@@ -29,7 +39,7 @@ class CategoryController extends Controller
         $category = new Category();
         $category->name = $request->name;
         $category->description = $request->description;
-        // $category->parent_id = $request->parent_id;
+        $category->parent_id = $request->parent_id;
         $category->photos = $request->photos;
 
         if($category->save()) {
@@ -38,7 +48,7 @@ class CategoryController extends Controller
                 $fileName = time() . '.' . $image->getClientOriginalExtension();
     
                 $img = \Image::make($image->getRealPath());
-                $img->resize(120, 120, function ($constraint) {
+                $img->resize(300, 200, function ($constraint) {
                     $constraint->aspectRatio();                 
                 });
     
@@ -51,9 +61,13 @@ class CategoryController extends Controller
                 $category->photos = $full_url;
                 $category->save();
             }
-
-            // $category->category = $category->category;
             
+            // Asignar category padre
+            if($category->parent_id != 0 || $category->parent_id != null) {
+                $parent = Category::find($category->parent_id);
+                $category->parent = $parent;
+            }
+
             return $category;
         }
     }
@@ -81,7 +95,7 @@ class CategoryController extends Controller
         $category_db = Category::find($id);
         $category_db->name = $request->name;
         $category_db->description = $request->description;
-        // $category_db->parent_id = $request->parent_id;
+        $category_db->parent_id = $request->parent_id;
 
         if($category_db->save()) {
             if ($request->hasFile('photo')) {
@@ -102,7 +116,13 @@ class CategoryController extends Controller
                 $category_db->photos = $full_url;
                 $category_db->save();
             }
-            // $category_db->category = $category_db->category;
+
+            // Asignar category padre
+            if($category_db->parent_id != 0 || $category_db->parent_id != null) {
+                $parent = Category::find($category_db->parent_id);
+                $category_db->parent = $parent;
+            }
+
             return $category_db;
         }
     }

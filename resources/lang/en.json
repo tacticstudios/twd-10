@@ -43,5 +43,6 @@
   "categories_deleted": "Categories deleted!",
   "products": "Products",
   "amount": "Price",
-  "category": "Category"
+  "category": "Category",
+  "parent_category": "Categoría Padre"
 }

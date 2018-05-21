@@ -17,6 +17,11 @@ class GuestController extends Controller
     public function products(Request $request)
     {   
         $categoryId = $request->categoryId;
+
+        if(isset($request->id)) {
+            return Product::find($request->id);
+        }
+
         return Product::where('category_id', $categoryId)->orderBy('name', 'asc')->get();
     }
 }

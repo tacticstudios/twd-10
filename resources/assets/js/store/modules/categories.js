@@ -7,7 +7,9 @@ export const namespaced = true
 export const state = {
   category: {
     name: '',
-    description: ''
+    description: '',
+    parent_id: 0,
+    parent: null
   },
   categories: [],
   photo: '',
@@ -19,6 +21,7 @@ export const mutations = {
     state.category.id = payload.id
     state.category.name = payload.name
     state.category.description = payload.description
+    state.category.parent_id = parseInt(payload.parent_id)
   },
   [types.FETCH_CATEGORIES] (state, payload) {
     state.categories = payload
@@ -27,9 +30,11 @@ export const mutations = {
     state.categories.push(payload)
   },
   [types.UPDATE_CATEGORY] (state, payload) {
-    let found = state.categories.find(x => x.id == payload.id);
+    let found = state.categories.find(x => x.id == payload.id)
     found.name = payload.name
     found.description = payload.description
+    found.parent_id = payload.parent_id
+    found.parent = payload.parent
   },
   [types.REMOVE_CATEGORIES] (state, payload) {
     state.categories = state.categories
@@ -40,7 +45,8 @@ export const mutations = {
   [types.CLEAR_CATEGORY] (state) {
     state.category = {
       name: '',
-      description: ''
+      description: '',
+      parent_id: 0
     }
   },
   [types.SET_PHOTO] (state, payload) {
@@ -67,6 +73,7 @@ export const actions = {
       formData.append("photo", photo);
       formData.append('name', category.name)
       formData.append('description', category.description)
+      formData.append('parent_id', category.parent_id)
       // /api/files/upload
       const { data } = await axios.post('/api/categories', formData, {
           headers: {
@@ -100,6 +107,7 @@ export const actions = {
       formData.append("photo", photo);
       formData.append('name', category.name)
       formData.append('description', category.description)
+      formData.append('parent_id', category.parent_id)
       formData.append('_method', 'PATCH');
       // /api/files/upload
       const { data } = await axios.post('/api/categories/' + category.id, formData, {

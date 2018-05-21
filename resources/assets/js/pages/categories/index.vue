@@ -39,6 +39,16 @@
                         ></v-text-field>
                       </v-flex>
                       <v-flex xs12>
+                        <v-select
+                          v-model="category.parent_id"
+                          :label="$t('parent_category')"
+                          :items="categories"
+                          item-value="id"
+                          item-text="name"
+                          single-line
+                        ></v-select>
+                      </v-flex>
+                      <v-flex xs12>
                         <img :src="imageUrl" height="150" v-if="imageUrl"/>
                         <v-text-field label="Select Image" @click='pickFile' v-model='imageName' prepend-icon='attach_file'></v-text-field>
                         <input
@@ -97,6 +107,7 @@
           <td>{{ props.item.id }}</td>
           <td>{{ props.item.name }}</td>
           <td>{{ props.item.description }}</td>
+          <td>{{ props.item.parent ? props.item.parent.name : 'Root' }}</td>
           <td class="justify-center layout px-0">
             <v-btn icon class="mx-0" @click="editItem(props.item)">
               <v-icon color="teal">edit</v-icon>
@@ -132,6 +143,7 @@ export default {
         { text: 'ID', value: 'id'},
         { text: 'Name', value: 'name' },
         { text: 'Description', value: 'description', sortable: false},
+        { text: 'Cat. Padre', value: 'parent_id'},
         { text: 'Actions', value: 'name', sortable: false, width: 20 }
       ],
       valid: true,

@@ -9,7 +9,9 @@ export default ({ authGuard, guestGuard }) => [
       { path: 'projects', name: 'projects', component: require('~/pages/projects.vue') },
       { path: 'about', name: 'about', component: require('~/pages/about.vue') },
       { path: 'contact', name: 'contact', component: require('~/pages/contact.vue') },
-      { path: 'product/:id', name: 'product', component: require('~/pages/product.vue') }
+      // { path: 'product/:id',  component: require('~/pages/product.vue') },
+      { path: 'category/:category_id', component: require('~/pages/category.vue') },
+      { path: 'category/:category_id/product/:product_id', component: require('~/pages/product.vue') }
       ] },
 
   // Authenticated routes.

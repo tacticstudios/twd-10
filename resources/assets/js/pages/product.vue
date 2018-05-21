@@ -4,21 +4,27 @@
         <v-container grid-list-xl>
           <v-layout row wrap justify-center>
             <v-flex xs12 sm12 md8>
-              <v-card class="elevation-0 transparent">
-                <v-card-text>
-                  <div class="map-responsive">
-                    {{ $route.params.id }}
-                  </div>
-                </v-card-text>
+              <v-card class="elevation-0 transparent" hover>
+                <v-card-title primary-title class="layout justify-center">
+                  <h3 class="display-2">{{ product.name }}</h3>
+                </v-card-title>
+                <!-- <v-card-text>
+                  <img src="/storage/" />
+                </v-card-text> -->
+                <v-card-media
+                  :src="'/storage/' + product.photos"
+                  height="500px"
+                >
+                </v-card-media>
               </v-card>
             </v-flex>
-            <v-flex xs12 sm12 md4>
+            <v-flex xs12 sm12 md4 mt-5>
               <v-card class="elevation-0 transparent">
                 <v-card-title primary-title class="layout justify-center">
                   <div class="headline">Detalle</div>
                 </v-card-title>
                 <v-card-text>
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ut quae sapiente magni quibusdam labore enim provident aut odio autem delectus ullam, voluptas asperiores, natus aliquid modi illo. Laborum, debitis quaerat!
+                    {{ product.description }}
                     <v-spacer></v-spacer>
                     <v-btn dark color="green">
                       Cotizar
@@ -36,27 +42,27 @@
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'product-view',
   layout: 'default',
   metaInfo () {
     return { title: this.$t('projects') }
   },
-  computed: mapGetters({
-    authenticated: 'authCheck'
-  }),
-  data: () => ({
-    // title: window.config.appName
-    title: 'ITAGRIF',
-  }),
+  mounted: function () {
+    this.fetchData()
+  },
+  computed: {
+    ...mapGetters({
+      product: 'product',
+    })
+  },
   watch: {
-    // call again the method if the route changes
-    '$route': 'fetchData'
+    '$route' (to, from) {
+      this.fetchProducts()
+    }
   },
   methods: {
-    fetchData () {
-      console.log("fetching")
-      
-    }
+    async fetchData() {
+      this.$store.dispatch('fetchProduct', this.$route.params.product_id)
+    },
   }
 }
 </script>
