@@ -79,7 +79,7 @@
             >
               <v-card>
                 <v-card-media
-                  :src="'storage/' + card.photos"
+                  :src="'/public/storage/' + card.photos"
                   height="200px"
                 >
                 <!-- <v-container fill-height fluid>
@@ -111,7 +111,7 @@
             <v-flex xs12 sm4>
               <v-card class="elevation-0 transparent">
                 <v-card-text>
-                  <img src="img/bomba.png" alt=""> 
+                  <img src="/public/img/bomba.png" alt=""> 
                 </v-card-text>
               </v-card>
             </v-flex>

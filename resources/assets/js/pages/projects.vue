@@ -1,17 +1,5 @@
 <template>
   <div>
-    <section>
-      <v-parallax  src="img/fondo2.jpg" height="230">
-        <v-layout
-          column
-          align-center
-          justify-center
-          class="black--text"
-        >
-        <img src="img/logo_o.png" alt="itagrif" height="200">
-        </v-layout>
-      </v-parallax>
-    </section>
     <section> 
      <v-container>
        <h2>Proyectos</h2>

@@ -26,7 +26,7 @@
               <v-card>
                 
                 <v-card-media
-                  :src="'/storage/' + card.photos"
+                  :src="'/public/storage/' + card.photos"
                   height="200px"
                 >
                 </v-card-media>
@@ -42,26 +42,28 @@
               </v-card>
             </v-flex>
 
-            <v-flex sm8 md8 xs12>
+            <v-flex>
               <v-container fluid>
                 <v-layout row wrap>
                   <v-flex
-                    xs12 sm6 md6
+                    xs12 sm4 md4
                     class="pr-2 pb-2"
                     v-for="product in products"
                     :key="product.id"
                   >
                     <v-card>
-                      <v-card-media :src="'/storage/' + product.photos" height="250px">
+                      <v-card-media :src="'/public/storage/' + product.photos" height="250px">
                       </v-card-media>
                       <v-card-title primary-title>
                         <div>
                           <h3 class="title mb-0"> {{ product.name}} </h3>
-                          <div> {{ product.description }} </div>
+                          <p> {{ product.description }} </p>
                         </div>
                       </v-card-title>
                       <v-card-actions>
-                        <v-btn flat color="green" :to="'/category/'+ $route.params.category_id+ '/product/' + product.id">Cotizar</v-btn>
+                        <v-spacer></v-spacer>
+                        <quotation-button :label="'Cotizar'" :flat="true" :product="product"></quotation-button>
+                        <v-btn dark color="green" :to="'/category/'+ $route.params.category_id+ '/product/' + product.id">Ver Detalle</v-btn>
                       </v-card-actions>
                     </v-card>
                   </v-flex>

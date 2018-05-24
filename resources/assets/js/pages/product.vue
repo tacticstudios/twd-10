@@ -8,11 +8,8 @@
                 <v-card-title primary-title class="layout justify-center">
                   <h3 class="display-2">{{ product.name }}</h3>
                 </v-card-title>
-                <!-- <v-card-text>
-                  <img src="/storage/" />
-                </v-card-text> -->
                 <v-card-media
-                  :src="'/storage/' + product.photos"
+                  :src="'/public/storage/' + product.photos"
                   height="500px"
                 >
                 </v-card-media>
@@ -26,9 +23,7 @@
                 <v-card-text>
                     {{ product.description }}
                     <v-spacer></v-spacer>
-                    <v-btn dark color="green">
-                      Cotizar
-                    </v-btn>
+                    <quotation-button :label="'Cotizar'" :flat="true" :product="product"></quotation-button>
                 </v-card-text>
               </v-card>
             </v-flex>

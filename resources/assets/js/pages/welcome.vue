@@ -3,12 +3,12 @@
     <v-toolbar dense prominent app fixed>
       <v-toolbar-title>
         <a href="/landing">
-          <img src="/img/logotipo_o.png" alt="ITAGRIF" height="24">
-          <span class="green--text">ITAGRIF</span>
+          <img src="/public/img/logotipo_o.png" alt="ITAGRIF" height="24">
+          <span class="green--text">ITAGRIF </span>
         </a>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <router-link to="/projects">
+      <router-link to="/quotations">
         <v-btn flat>
           <v-badge color="green">
             <span>Cotizaciones</span>
@@ -21,8 +21,40 @@
       </v-btn>
     </v-toolbar>
 
+    <v-content v-if="['landing'].indexOf($route.name) > -1 && windowWidth <= 600">
+      <section>
+          <v-layout column >
+              <v-flex xs12 sm6 offset-sm3>
+                <v-card>
+                  <v-container fluid grid-list-md>
+                    <v-layout row wrap>
+                      <v-flex
+                        v-for="card in cards"
+                        v-bind="{ [`xs${card.flex}`]: true }"
+                        :key="card.title"
+                      >
+                        <v-card hover :to="card.to">
+                          <v-card-media
+                            :src="card.src"
+                            height="150px"
+                          >
+                          </v-card-media>
+                          <v-card-actions>
+                            {{ card.title }}
+                          </v-card-actions>
+                        </v-card>
+                      </v-flex>
+                    </v-layout>
+                  </v-container>
+                </v-card>
+              </v-flex>
+            </v-layout>
+      </section>
+    </v-content>
+    
+
     <v-content>
-      <section v-if="['landing'].indexOf($route.name) > -1">
+      <section v-if="['landing'].indexOf($route.name) > -1 && windowWidth > 600">
         <v-carousel hide-delimiters>
           <v-carousel-item
             v-for="(item,i) in items"
@@ -47,19 +79,19 @@
 
 
     <section v-if="['landing'].indexOf($route.name) <= -1">
-      <v-parallax  src="/img/fondo2.jpg" height="230">
+      <v-parallax  src="/public/img/fondo2.jpg" height="230">
         <v-layout
           column
           align-center
           justify-center
           class="black--text"
         >
-        <img src="/img/logo_o.png" alt="itagrif" height="200">
+        <img src="/public/img/logo_o.png" alt="itagrif" height="200">
         </v-layout>
       </v-parallax>
     </section>
 
-    <section>
+    <section v-if="windowWidth > 600">
       <v-toolbar prominent dark color="green">
         <v-spacer></v-spacer>
         <v-toolbar-items class="hidden-sm-and-down">
@@ -99,37 +131,57 @@ export default {
   metaInfo () {
     return { title: this.$t('home') }
   },
-
-  computed: mapGetters({
-    authenticated: 'authCheck',
-    quotations: 'quotations'
-  }),
-
+  computed: {
+    ...mapGetters({
+      quotations: 'quotations'
+    }),
+  },
+  watch: {
+    windowWidth(newHeight, oldHeight) {
+     this.txt = 'it changed from ' + newHeight + ' / ' + oldHeight;
+    }
+  },
+  mounted() {
+    let that = this;
+    this.$nextTick(function() {
+      window.addEventListener('resize', function(e) {
+        that.windowWidth=  window.innerWidth
+      });
+    })
+  },
   data: () => ({
     // title: window.config.appName
     title: 'ITAGRIF',
+    windowWidth: window.innerWidth,
+    txt: '',
     items: [
           {
             title: 'Riego por Aspersión',
             text: 'asjdajsdhjasdjasd',
-            src: 'img/slide1.jpg'
+            src: '/public/img/slide1.jpg'
           },
           {
             title: 'Riego por Goteo',
             text: 'Badasdasdadsdas',
-            src: 'img/slide2.jpg'
+            src: '/public/img/slide2.jpg'
           },
           {
             title: 'Fumigación',
             text: 'Casdasdasd',
-            src: 'img/slide3.jpg'
+            src: '/public/img/slide3.jpg'
           },
           {
             title: 'Equip. ',
             text: 'Casdasdasd',
-            src: 'img/slide4.jpg'
+            src: '/public/img/slide4.jpg'
           },
-        ]
+        ],
+        cards: [
+        { title: 'Empresa', src: '/public/img/nosotros.jpg', flex: 12, to: '/about' },
+        { title: 'Productos', src: '/public/img/productos.jpg', flex: 6, to: '/catalogue' },
+        { title: 'Servicios', src: '/public/img/servicios.jpg', flex: 6, to: '/' },
+        { title: 'Contactos', src: '/public/img/contacto.png', flex: 12, to: '/contact' }
+      ]
   })
 }
 </script>

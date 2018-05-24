@@ -12,7 +12,7 @@
           >
             <v-card>
               <v-card-media
-                :src="'storage/' + card.photos"
+                :src="'/public/storage/' + card.photos"
                 height="200px"
               >
               <!-- <v-container fill-height fluid>

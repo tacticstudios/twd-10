@@ -6,7 +6,8 @@ export const state = {
   menus: [],
   products: [],
   product: {},
-  quotations: 4
+  quotations: 0,
+  quotation_list: []
 }
 
 // mutations
@@ -19,11 +20,36 @@ export const mutations = {
   },
   [types.SET_PRODUCT] (state, payload) {
     state.product = payload
-  }
+  },
+  [types.ADD_TO_QUOTATIONS] (state, payload) {
+    state.quotation_list.push(payload)
+    state.quotations = state.quotation_list.length
+  },
+  [types.REMOVE_FROM_QUOTATIONS] (state, payload) {
+    let productId = payload.id
+    state.quotation_list = state.quotation_list
+      .filter(function(el) {
+          return el.id != productId
+      })
+    state.quotations = state.quotation_list.length
+  },
+  [types.CLEAR_QUOTATIONS] (state) {
+    state.quotations = 0
+    state.quotation_list = []
+  },
 }
 
 // actions
 export const actions = {
+  async sendQuotationRequest ({ commit }, payload) {
+    try {
+      await axios.post('/api/guest/sendQuotationRequest', payload)
+      commit(types.CLEAR_QUOTATIONS)
+      alert("Tu pedido de cotización ha sido enviado")
+    } catch (e) {
+      console.log('Error')
+    }
+  },
   async fetchMenu ({ commit }) {
     try {
       const { data } = await axios.get('/api/guest/menu')
@@ -47,7 +73,13 @@ export const actions = {
     } catch (e) {
       console.log('Error')
     }
-  }
+  },
+  addToQuotations ({ commit }, payload) {
+    commit(types.ADD_TO_QUOTATIONS, payload)
+  },
+  removeFromQuotations ({ commit }, payload) {
+    commit(types.REMOVE_FROM_QUOTATIONS, payload)
+  },
 }
 
 // getters
@@ -55,5 +87,6 @@ export const getters = {
   menus: state => state.menus,
   products: state => state.products,
   quotations: state => state.quotations,
-  product: state => state.product
+  product: state => state.product,
+  quotation_list: state => state.quotation_list
 }

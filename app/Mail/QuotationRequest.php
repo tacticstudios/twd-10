@@ -11,14 +11,16 @@ class QuotationRequest extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $order;
+
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($order)
     {
-        //
+        $this->order = $order;
     }
 
     /**
@@ -28,6 +30,8 @@ class QuotationRequest extends Mailable
      */
     public function build()
     {
-        return $this->view('view.name');
+        return $this->from('noreply@itagrif.com')
+            ->subject('[Web] Pedido de Cotización')
+            ->view('emails.quotations.request');
     }
 }
