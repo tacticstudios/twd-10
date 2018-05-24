@@ -16,3 +16,4 @@ yarn-error.log
 /public/mix-manifest.json
 
 phpunit.dusk.xml
+envs.rar
