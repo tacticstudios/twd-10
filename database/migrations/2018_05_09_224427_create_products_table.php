@@ -24,6 +24,7 @@ class CreateProductsTable extends Migration
             $table->unsignedTinyInteger('flex')->nullable();
             $table->timestamps();
             $table->unsignedTinyInteger('is_active')->default(1);
+            $table->unsignedTinyInteger('has_discount')->default(0);
             $table->softDeletes();
             $table->foreign('category_id')->references('id')->on('categories');
         });

@@ -5,7 +5,7 @@
         <v-layout row>
           <v-flex xs12 sm6 offset-sm3>
             <v-card>
-              <v-toolbar dense color="green" dark>
+              <v-toolbar dense color="light-green accent-4" dark>
                 <v-toolbar-title>Quiero una cotización</v-toolbar-title>
                 <v-spacer></v-spacer>
               </v-toolbar>
@@ -15,7 +15,7 @@
                   <v-divider></v-divider>
                   <v-list-tile v-for="(item, index) in quotation_list" :key="index" avatar @click="">
                     <v-list-tile-avatar>
-                      <img :src="item.avatar">
+                      <img :src="'/public/storage/' + item.photos">
                     </v-list-tile-avatar>
                     <v-list-tile-content>
                       <v-btn
@@ -35,19 +35,9 @@
                         {{ item.description }}
                       </v-list-tile-sub-title>
                     </v-list-tile-content>
-                    
-                    <!-- <v-list-tile-action>
-                      <v-text-field
-                        full-width
-                        label="Cant."
-                        value="1"
-                        type="number"
-                      ></v-text-field>
-                    </v-list-tile-action> -->
-                    
                   </v-list-tile>
                   <v-divider inset></v-divider>
-                  <v-list-tile to="/catalogue">
+                  <v-list-tile to="/categories">
                     <v-list-tile-content>
                       <v-list-tile-title><v-icon>add</v-icon> {{ addProductLabel }}</v-list-tile-title>
                       <v-list-tile-sub-title>Volver al catálogo</v-list-tile-sub-title>
@@ -71,6 +61,11 @@
                         :rules="emailRules"
                         label="Mi Correo"
                         required
+                      ></v-text-field>
+                      <v-text-field
+                        multi-line
+                        v-model="message"
+                        label="Mensaje"
                       ></v-text-field>
                       <v-btn
                         :loading="loading"
@@ -107,6 +102,7 @@ export default {
     return {
       loading: false,
       valid: false,
+      message: '',
       name: '',
       nameRules: [
         v => !!v || 'Name is required',
@@ -142,16 +138,22 @@ export default {
   },
   methods: {
     submit () {
+        if(this.quotation_list.length == 0) {
+          alert('No has agregado un producto aun')
+          return false
+        } 
         if (this.$refs.form.validate()) {
           this.loading = true
           this.$store.dispatch('sendQuotationRequest', {
             name: this.name,
             email: this.email,
+            message: this.message,
             quotation_list: this.quotation_list
           }).then(response => {
             this.loading = false
             name = ''
             email = ''
+            message= ''
           }, error => {
             this.loading = false
           })

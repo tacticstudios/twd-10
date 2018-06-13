@@ -40,6 +40,6 @@ Route::group(['middleware' => 'guest:api'], function () {
     
 });
 
-Route::get('guest/menu', 'GuestController@menu');
+Route::get('guest/data', 'GuestController@data');
 Route::get('guest/products', 'GuestController@products');
 Route::post('guest/sendQuotationRequest', 'GuestController@sendQuotationRequest');

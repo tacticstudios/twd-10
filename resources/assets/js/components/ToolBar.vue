@@ -25,42 +25,16 @@
       <progress-bar :show="busy"></progress-bar>
       <v-btn flat :to="{ name: 'settings.profile' }">{{ user.name }}</v-btn>
       <v-btn flat @click.prevent="logout">{{ $t('logout') }}</v-btn>
-      <v-btn icon>
-        <v-icon>apps</v-icon>
-      </v-btn>
-      <v-btn icon>
-        <v-icon>notifications</v-icon>
-      </v-btn>
     </template>
     <!-- Guest -->
     <template v-else>
       <v-btn flat :to="{ name: 'login' }">{{ $t('login') }}</v-btn>
       <v-btn flat :to="{ name: 'register' }">{{ $t('register') }}</v-btn>
     </template>
-    <v-btn icon :to="'landing'">
+    <v-btn icon :to="'/landing'">
       <v-icon>tab</v-icon>
     </v-btn>
   </v-toolbar>
-  <!-- <v-toolbar fixed app dark color="primary">
-    <v-toolbar-side-icon @click.stop="toggleDrawer" v-if="authenticated"></v-toolbar-side-icon>
-    <v-toolbar-title>
-      <router-link :to="{ name: 'welcome' }" class="white--text">
-        {{ appName }}
-      </router-link>
-    </v-toolbar-title>
-    <v-spacer></v-spacer>
-
-    <template v-if="authenticated">
-      <progress-bar :show="busy"></progress-bar>
-      <v-btn flat :to="{ name: 'settings.profile' }">{{ user.name }}</v-btn>
-      <v-btn flat @click.prevent="logout">{{ $t('logout') }}</v-btn>
-    </template>
-
-    <template v-else>
-      <v-btn flat :to="{ name: 'login' }">{{ $t('login') }}</v-btn>
-      <v-btn flat :to="{ name: 'register' }">{{ $t('register') }}</v-btn>
-    </template>
-  </v-toolbar> -->
 </template>
 
 <script>

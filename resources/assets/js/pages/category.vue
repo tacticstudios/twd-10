@@ -1,90 +1,76 @@
 <template>
   <div>
-     <section>
-       <v-container grid-list-md mt-2>
-          <v-layout row wrap justify-center my-2>
-            <v-btn color="success"
-              v-if="card.parent_id == 0"
-              v-for="(card, index) in menus"
-              :key="index"
-              :to="'/category/' + card.id">
-              {{ card.name }}
-            </v-btn>
-          </v-layout>
-        </v-container>
-        <v-container grid-list-md mt-5>
-          <v-layout row mb-4>
-            <h2 class="display-1">{{ category_name }}</h2>
-          </v-layout>
-          <v-layout row wrap>
-            <v-flex
-              v-if="card.parent_id == $route.params.category_id"
-              v-for="(card, index) in menus"
-              v-bind="{ [`md${card.flex}`]: true }"
-              :key="index"
-            >
-              <v-card>
-                
-                <v-card-media
-                  :src="'/public/storage/' + card.photos"
-                  height="200px"
+     <section class="my-5">
+      <v-container v-if="!isShowingRoots" grid-list-md>
+        <h3 class="display-1">Categorías Principales</h3>
+        <v-layout row wrap my-2>
+          <v-btn flat
+            v-if="card.parent_id == 0"
+            v-for="(card, index) in data"
+            :key="index"
+            :to="'/category/' + card.id">
+            {{ card.name }}
+          </v-btn>
+        </v-layout>
+      </v-container>
+      <v-container grid-list-md>
+        <v-layout row mb-4>
+          <h3 class="display-3">{{ category_name }}</h3>
+        </v-layout>
+        <v-layout row wrap>
+          <v-flex
+            v-if="isShowingProducts == false"
+            v-for="(card, index) in cards"
+            v-bind="{ [`md${card.flex}`]: true }"
+            :key="index"
+          >
+            <v-card hover :to="'/category/' + card.id">
+              <v-card-media
+                :src="'/public/storage/' + card.photos"
+                height="200px"
+              >
+              </v-card-media>
+              <v-card-actions>
+                <v-btn flat large :to="'/category/' + card.id">
+                  {{ card.name }}
+                </v-btn>
+                <v-spacer></v-spacer>
+                <v-btn flat class="green--text" :to="'/category/' + card.id">
+                  Ver
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-flex>
+          <v-flex v-if="isShowingProducts">
+            <v-container fluid>
+              <v-layout row wrap>
+                <v-flex
+                  xs12 sm4 md4
+                  class="pr-2 pb-2"
+                  v-for="product in cards"
+                  :key="product.id"
                 >
-                </v-card-media>
-                <v-card-actions>
-                  <v-btn flat large :to="'/category/' + card.id">
-                    {{ card.name }}
-                  </v-btn>
-                  <v-spacer></v-spacer>
-                  <v-btn flat class="green--text" :to="'/category/' + card.id">
-                    Ver
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-flex>
-
-            <v-flex>
-              <v-container fluid>
-                <v-layout row wrap>
-                  <v-flex
-                    xs12 sm4 md4
-                    class="pr-2 pb-2"
-                    v-for="product in products"
-                    :key="product.id"
-                  >
-                    <v-card>
-                      <v-card-media :src="'/public/storage/' + product.photos" height="250px">
-                      </v-card-media>
-                      <v-card-title primary-title>
-                        <div>
-                          <h3 class="title mb-0"> {{ product.name}} </h3>
-                          <p> {{ product.description }} </p>
-                        </div>
-                      </v-card-title>
-                      <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <quotation-button :label="'Cotizar'" :flat="true" :product="product"></quotation-button>
-                        <v-btn dark color="green" :to="'/category/'+ $route.params.category_id+ '/product/' + product.id">Ver Detalle</v-btn>
-                      </v-card-actions>
-                    </v-card>
-                  </v-flex>
-                </v-layout>
-              </v-container>
-            </v-flex>
-
-          </v-layout>
-        </v-container>
-
-        <v-container grid-list-md mt-2 mb-5>
-          <v-layout row wrap justify-center my-2>
-            <v-btn color="success"
-              v-if="card.parent_id == 0"
-              v-for="(card, index) in menus"
-              :key="index"
-              :to="'/category/' + card.id">
-              {{ card.name }}
-            </v-btn>
-          </v-layout>
-        </v-container>
+                  <v-card hover :to="'/category/'+ $route.params.category_id+ '/product/' + product.id">
+                    <v-card-media :src="'/public/storage/' + product.photos" height="250px">
+                    </v-card-media>
+                    <v-card-title primary-title>
+                      <div>
+                        <h3 class="title mb-0"> {{ product.name}} </h3>
+                        <p> {{ product.description }} </p>
+                      </div>
+                    </v-card-title>
+                    <v-card-actions>
+                      <v-spacer></v-spacer>
+                      <quotation-button :label="'Cotizar'" :flat="true" :product="product"></quotation-button>
+                      <v-btn dark color="green" :to="'/category/'+ $route.params.category_id+ '/product/' + product.id">Ver Detalle</v-btn>
+                    </v-card-actions>
+                  </v-card>
+                </v-flex>
+              </v-layout>
+            </v-container>
+          </v-flex>
+        </v-layout>
+      </v-container>
 
       </section>
   </div>
@@ -98,10 +84,6 @@ export default {
   metaInfo () {
     return { title: this.$t('catalogue') }
   },
-  mounted: function () {
-    this.fetchItems()
-    this.fetchProducts()
-  },
   data () {
     return {
       empty: false
@@ -109,44 +91,57 @@ export default {
   },
   watch: {
     '$route' (to, from) {
-      this.fetchProducts()
+      //
     }
   },
   computed: {
     ...mapGetters({
-      menus: 'menus',
-      products: 'products',
+      data: 'data',
       quotations: 'quotations'
     }),
     category_name: function(){
       let id = this.$route.params.category_id
 
-      if(this.menus.length == 0 ) return "Cargando..." 
+      if (id == null) {
+        return "Categorias Principales"
+      }
+
+      if(this.data.length == 0 ) return "Cargando..." 
       
-      let found = this.menus.find(function(element) {
+      let found = this.data.find(function(element) {
         return element.id == id
       });
       return found.name
-    }
-  },
-  methods: {
-    async fetchItems() {
-      if(this.menus.length == 0) {
-        this.$store.dispatch('fetchMenu')
+    },
+    isShowingRoots: function(){
+      return this.$route.params.category_id == null
+    },
+    cards: function () {
+      let id = this.$route.params.category_id
+
+      // if no param
+      if (id == null) {
+        return this.data.filter( element => element.parent_id == 0)
+      }
+        
+      // if category has products
+      let found = this.data.find( element => element.id == id)
+
+      if (found.products.length > 0) {
+        return found.products
+      } else {
+        return this.data.filter( element => element.parent_id == id)
       }
     },
-    async fetchProducts() {
-      await this.$store.dispatch('fetchProducts', this.$route.params.category_id).then(response => {
-        if(this.products.length <= 0) {
-          this.empty = true
-        } else {
-          this.empty = false
-        }
-      }, error => {
-        console.log(error)
-      })
-
-    },
+    isShowingProducts: function() {
+      let id = this.$route.params.category_id
+      if(id != null) {
+        let found = this.data.find( element => element.id == id)
+        return found.products.length > 0
+      } else {
+        return false
+      }
+    }
   }
 }
 </script>

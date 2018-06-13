@@ -1,6 +1,37 @@
 <template>
   <div>
-      <section>
+    <section class="my-5">
+      <v-container grid-list-md>
+          <h2>Nuestras Categorías</h2>
+          <br>
+        <v-layout row wrap>
+          <v-flex
+            v-for="(card, index) in data"
+            v-bind="{ [`md${card.flex}`]: true }"
+            :key="index"
+            v-if="card.parent_id == 0"
+          >
+            <v-card>
+              <v-card-media
+                :src="'/public/storage/' + card.photos"
+                height="200px"
+              >
+              </v-card-media>
+              <v-card-actions>
+                <v-btn flat :to="'/category/' + card.id">
+                  {{ card.name }}
+                </v-btn>
+                <v-spacer></v-spacer>
+                <v-btn flat class="green--text" :to="'/category/' + card.id">
+                  Ver
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-flex>
+        </v-layout>
+      </v-container>
+    </section>
+    <section>
         <v-layout
           column
           wrap
@@ -68,50 +99,12 @@
       </section>
 
       <section>
-        <v-container grid-list-md>
-            <h2>Nuestras Categorías</h2>
-          <v-layout row wrap>
-            <v-flex
-              v-for="(card, index) in menus"
-              v-bind="{ [`md${card.flex}`]: true }"
-              :key="index"
-              v-if="card.parent_id == 0"
-            >
-              <v-card>
-                <v-card-media
-                  :src="'/public/storage/' + card.photos"
-                  height="200px"
-                >
-                <!-- <v-container fill-height fluid>
-                  <v-layout fill-height>
-                    <v-flex xs12 align-end flexbox>
-                      <span class="headline white--text" v-text="card.name"></span>
-                    </v-flex>
-                  </v-layout>
-                </v-container> -->
-                </v-card-media>
-                <v-card-actions>
-                  <v-btn flat :to="'/category/' + card.id">
-                    {{ card.name }}
-                  </v-btn>
-                  <v-spacer></v-spacer>
-                  <v-btn flat class="green--text" :to="'/category/' + card.id">
-                    Ver
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-flex>
-          </v-layout>
-        </v-container>
-      </section>
-
-      <section>
         <v-container grid-list-xl>
           <v-layout row wrap justify-center class="my-5">
             <v-flex xs12 sm4>
               <v-card class="elevation-0 transparent">
                 <v-card-text>
-                  <img src="/public/img/bomba.png" alt=""> 
+                  <img src="/public/img/logo_itagrif.png" alt="itagrif" width="400px"> 
                 </v-card-text>
               </v-card>
             </v-flex>
@@ -124,9 +117,25 @@
                   Puedes contactarnos de muchas formas!
                 </v-card-text>
                 <v-list class="transparent">
+                  <v-list-tile href="https://www.facebook.com/Itagrif-SAC-511737782551367/" target="_blank">
+                    <v-list-tile-action>
+                      <i class="fa fa-facebook-official" style="font-size:24px;color:green"></i>
+                    </v-list-tile-action>
+                    <v-list-tile-content>
+                      <v-list-tile-title>Facebook</v-list-tile-title>
+                    </v-list-tile-content>
+                  </v-list-tile>
                   <v-list-tile>
                     <v-list-tile-action>
-                      <v-icon class="blue--text text--lighten-2">phone</v-icon>
+                      <i class="fa fa-whatsapp" style="font-size:24px;color:green"></i>
+                    </v-list-tile-action>
+                    <v-list-tile-content>
+                      <v-list-tile-title>Whatsapp 988695886</v-list-tile-title>
+                    </v-list-tile-content>
+                  </v-list-tile>
+                  <v-list-tile>
+                    <v-list-tile-action>
+                      <v-icon class="green--text">phone</v-icon>
                     </v-list-tile-action>
                     <v-list-tile-content>
                       <v-list-tile-title>Tel. (51) 44 230400</v-list-tile-title>
@@ -134,15 +143,7 @@
                   </v-list-tile>
                   <v-list-tile>
                     <v-list-tile-action>
-                      <v-icon class="blue--text text--lighten-2">phone</v-icon>
-                    </v-list-tile-action>
-                    <v-list-tile-content>
-                      <v-list-tile-title>Cel. 988695886</v-list-tile-title>
-                    </v-list-tile-content>
-                  </v-list-tile>
-                  <v-list-tile>
-                    <v-list-tile-action>
-                      <v-icon class="blue--text text--lighten-2">phone</v-icon>
+                      <v-icon class="green--text">phone</v-icon>
                     </v-list-tile-action>
                     <v-list-tile-content>
                       <v-list-tile-title>Movistar 942930520</v-list-tile-title>
@@ -150,15 +151,7 @@
                   </v-list-tile>
                   <v-list-tile>
                     <v-list-tile-action>
-                      <v-icon class="blue--text text--lighten-2">phone</v-icon>
-                    </v-list-tile-action>
-                    <v-list-tile-content>
-                      <v-list-tile-title>Whatsapp #300306</v-list-tile-title>
-                    </v-list-tile-content>
-                  </v-list-tile>
-                  <v-list-tile>
-                    <v-list-tile-action>
-                      <v-icon class="blue--text text--lighten-2">place</v-icon>
+                      <v-icon class="green--text">place</v-icon>
                     </v-list-tile-action>
                     <v-list-tile-content>
                       <v-list-tile-title>Av. Vallejo N° 303 Urb. Palermo - Trujillo, Perú</v-list-tile-title>
@@ -166,7 +159,7 @@
                   </v-list-tile>
                   <v-list-tile>
                     <v-list-tile-action>
-                      <v-icon class="blue--text text--lighten-2">email</v-icon>
+                      <v-icon class="green--text">email</v-icon>
                     </v-list-tile-action>
                     <v-list-tile-content>
                       <v-list-tile-title>ventas@itagrif.com</v-list-tile-title>
@@ -190,26 +183,14 @@ export default {
   metaInfo () {
     return { title: this.$t('home') }
   },
-  mounted: function () {
-    this.fetchItems()
-  },
   computed: mapGetters({
-    authenticated: 'authCheck',
-    menus: 'menus',
-    products: 'products',
+    data: 'data',
     quotations: 'quotations'
   }),
   data: () => ({
     // title: window.config.appName
     title: 'ITAGRIF',
     
-  }),
-  methods: {
-    async fetchItems() {
-      if(this.menus.length == 0) {
-        this.$store.dispatch('fetchMenu')
-      }
-    },
-  }
+  })
 }
 </script>

@@ -1,9 +1,7 @@
 <template>
   <div>
-    
     <section> 
      <v-container>
-       
         <v-layout
           column
           wrap
@@ -61,46 +59,6 @@
                       Nuestro servicio de atención al cliente está compuesto por profesionales especializados 
                       en los productos que ofrecemos, brindando al cliente la información adecuada para que pueda
                        elegir el producto que mejores beneficios le traerá. 
-                    </v-card-text>
-                  </v-card>
-                </v-flex>
-              </v-layout>
-            </v-container>
-          </v-flex>
-        </v-layout>
-
-        <v-layout
-          column
-          wrap
-          class="my-5"
-          align-center
-        >
-          <v-flex xs12>
-            <v-container grid-list-xl>
-              <v-layout row wrap align-center>
-                <v-flex xs12 md6>
-                  <v-card class="elevation-0 transparent">
-                    <v-card-text class="text-xs-center">
-                      <v-icon x-large class="blue--text text--lighten-2">home</v-icon>
-                    </v-card-text>
-                    <v-card-title primary-title class="layout justify-center">
-                      <div class="headline text-xs-center">Misión</div>
-                    </v-card-title>
-                    <v-card-text>
-                       Mantener un crecimiento sostenido en ventas y puntualidad en el servicio, comprometidos con la región y el medio ambiente. 
-                    </v-card-text>
-                  </v-card>
-                </v-flex>
-                <v-flex xs12 md6>
-                  <v-card class="elevation-0 transparent">
-                    <v-card-text class="text-xs-center">
-                      <v-icon x-large class="blue--text text--lighten-2">local_florist</v-icon>
-                    </v-card-text>
-                    <v-card-title primary-title class="layout justify-center">
-                      <div class="headline">Visión</div>
-                    </v-card-title>
-                    <v-card-text>
-                      Ser una empresa líder en la venta de marcas reconocidas reconocidas y brindar servicios de calidad. 
                     </v-card-text>
                   </v-card>
                 </v-flex>

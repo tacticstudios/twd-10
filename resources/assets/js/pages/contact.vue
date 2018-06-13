@@ -21,9 +21,25 @@
                   Puedes contactarnos de muchas formas!
                 </v-card-text>
                 <v-list class="transparent">
+                  <v-list-tile href="https://www.facebook.com/Itagrif-SAC-511737782551367/" target="_blank">
+                    <v-list-tile-action>
+                      <i class="fa fa-facebook-official" style="font-size:24px;color:green"></i>
+                    </v-list-tile-action>
+                    <v-list-tile-content>
+                      <v-list-tile-title>Facebook</v-list-tile-title>
+                    </v-list-tile-content>
+                  </v-list-tile>
                   <v-list-tile>
                     <v-list-tile-action>
-                      <v-icon class="blue--text text--lighten-2">phone</v-icon>
+                      <i class="fa fa-whatsapp" style="font-size:24px;color:green"></i>
+                    </v-list-tile-action>
+                    <v-list-tile-content>
+                      <v-list-tile-title>Whatsapp 988695886</v-list-tile-title>
+                    </v-list-tile-content>
+                  </v-list-tile>
+                  <v-list-tile>
+                    <v-list-tile-action>
+                      <v-icon class="green--text">phone</v-icon>
                     </v-list-tile-action>
                     <v-list-tile-content>
                       <v-list-tile-title>Tel. (51) 44 230400</v-list-tile-title>
@@ -31,15 +47,7 @@
                   </v-list-tile>
                   <v-list-tile>
                     <v-list-tile-action>
-                      <v-icon class="blue--text text--lighten-2">phone</v-icon>
-                    </v-list-tile-action>
-                    <v-list-tile-content>
-                      <v-list-tile-title>Cel. 988695886</v-list-tile-title>
-                    </v-list-tile-content>
-                  </v-list-tile>
-                  <v-list-tile>
-                    <v-list-tile-action>
-                      <v-icon class="blue--text text--lighten-2">phone</v-icon>
+                      <v-icon class="green--text">phone</v-icon>
                     </v-list-tile-action>
                     <v-list-tile-content>
                       <v-list-tile-title>Movistar 942930520</v-list-tile-title>
@@ -47,15 +55,7 @@
                   </v-list-tile>
                   <v-list-tile>
                     <v-list-tile-action>
-                      <v-icon class="blue--text text--lighten-2">phone</v-icon>
-                    </v-list-tile-action>
-                    <v-list-tile-content>
-                      <v-list-tile-title>Whatsapp #300306</v-list-tile-title>
-                    </v-list-tile-content>
-                  </v-list-tile>
-                  <v-list-tile>
-                    <v-list-tile-action>
-                      <v-icon class="blue--text text--lighten-2">place</v-icon>
+                      <v-icon class="green--text">place</v-icon>
                     </v-list-tile-action>
                     <v-list-tile-content>
                       <v-list-tile-title>Av. Vallejo N° 303 Urb. Palermo - Trujillo, Perú</v-list-tile-title>
@@ -63,7 +63,7 @@
                   </v-list-tile>
                   <v-list-tile>
                     <v-list-tile-action>
-                      <v-icon class="blue--text text--lighten-2">email</v-icon>
+                      <v-icon class="green--text">email</v-icon>
                     </v-list-tile-action>
                     <v-list-tile-content>
                       <v-list-tile-title>ventas@itagrif.com</v-list-tile-title>

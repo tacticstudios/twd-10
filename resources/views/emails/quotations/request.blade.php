@@ -11,6 +11,7 @@
   <h2>Cliente:</h2>
   <h4>Nombre Cliente: {{ $order->clientName }}</h4>
   <h4>Email Cliente: {{ $order->clientEmail }}</h4>
+  <h4>Mensaje del Cliente: {{ $order->clientMessage }}</h4>
   <h2>Productos:</h2>
   <table>
     <thead>

@@ -10,9 +10,14 @@ use App\Mail\QuotationRequest;
 
 class GuestController extends Controller
 {
-    public function menu()
-    {
-        return Category::orderBy('name', 'asc')->get();
+    public function data()
+    {   
+        $categories = Category::orderBy('name', 'asc')->get();
+        foreach($categories as $key => $category) {
+            $products = Product::where('category_id', $category->id)->orderBy('name', 'asc')->get();
+            $categories[$key]->products = $products;
+        }
+        return $categories;
     }
 
     public function products(Request $request)
@@ -23,23 +28,22 @@ class GuestController extends Controller
 
         $categoryId = $request->categoryId;
 
-        return Product::where('category_id', $categoryId)->orderBy('name', 'asc')->get();
+        return ;
     }
 
     public function sendQuotationRequest(Request $request)
     {   
-
         if (is_array($request->quotation_list) && sizeof($request->quotation_list) > 0) {
             $adminEmail = "gecedeveloper@gmail.com";
 
             $order = new \stdClass;
             $order->clientName = $request->name;
             $order->clientEmail = $request->email;
+            $order->clientMessage = $request->message;
             $order->products = $request->quotation_list;
 
             \Mail::to($adminEmail)
                 ->send(new QuotationRequest($order));
         }
-        
     }
 }

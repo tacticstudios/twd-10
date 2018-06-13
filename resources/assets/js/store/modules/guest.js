@@ -3,8 +3,7 @@ import * as types from '../mutation-types'
 
 // state
 export const state = {
-  menus: [],
-  products: [],
+  data: [],
   product: {},
   quotations: 0,
   quotation_list: []
@@ -12,8 +11,8 @@ export const state = {
 
 // mutations
 export const mutations = {
-  [types.FETCH_MENUS] (state, payload) {
-    state.menus = payload
+  [types.FETCH_DATA] (state, payload) {
+    state.data = payload
   },
   [types.FETCH_PRODUCTS] (state, payload) {
     state.products = payload
@@ -22,21 +21,25 @@ export const mutations = {
     state.product = payload
   },
   [types.ADD_TO_QUOTATIONS] (state, payload) {
-    state.quotation_list.push(payload)
-    state.quotations = state.quotation_list.length
+    const id = payload.id
+    const found = state.quotation_list.find(el => el.id === id)
+    if (found == null) {
+      state.quotation_list.push(payload)
+      state.quotations = state.quotation_list.length
+    }
   },
   [types.REMOVE_FROM_QUOTATIONS] (state, payload) {
-    let productId = payload.id
+    const productId = payload.id
     state.quotation_list = state.quotation_list
-      .filter(function(el) {
-          return el.id != productId
+      .filter(function (el) {
+        return el.id !== productId
       })
     state.quotations = state.quotation_list.length
   },
   [types.CLEAR_QUOTATIONS] (state) {
     state.quotations = 0
     state.quotation_list = []
-  },
+  }
 }
 
 // actions
@@ -45,23 +48,15 @@ export const actions = {
     try {
       await axios.post('/api/guest/sendQuotationRequest', payload)
       commit(types.CLEAR_QUOTATIONS)
-      alert("Tu pedido de cotización ha sido enviado")
+      alert('Tu pedido de cotización ha sido enviado')
     } catch (e) {
       console.log('Error')
     }
   },
-  async fetchMenu ({ commit }) {
+  async fetchData ({ commit }) {
     try {
-      const { data } = await axios.get('/api/guest/menu')
-      commit(types.FETCH_MENUS, data)
-    } catch (e) {
-      console.log('Error')
-    }
-  },
-  async fetchProducts ({ commit }, id) {
-    try {
-      const { data } = await axios.get('/api/guest/products?categoryId=' + id)
-      commit(types.FETCH_PRODUCTS, data)
+      const { data } = await axios.get('/api/guest/data')
+      commit(types.FETCH_DATA, data)
     } catch (e) {
       console.log('Error')
     }
@@ -79,13 +74,12 @@ export const actions = {
   },
   removeFromQuotations ({ commit }, payload) {
     commit(types.REMOVE_FROM_QUOTATIONS, payload)
-  },
+  }
 }
 
 // getters
 export const getters = {
-  menus: state => state.menus,
-  products: state => state.products,
+  data: state => state.data,
   quotations: state => state.quotations,
   product: state => state.product,
   quotation_list: state => state.quotation_list

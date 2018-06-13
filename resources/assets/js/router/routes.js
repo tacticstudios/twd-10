@@ -1,18 +1,20 @@
 export default ({ authGuard, guestGuard }) => [
   // { path: '/', name: 'welcome', component: require('~/pages/welcome.vue') },
   { path: '/',
-      component: require('~/pages/welcome.vue'),
-      children: [
-      { path: '', redirect: { name: 'landing' } },
+    component: require('~/pages/welcome.vue'),
+    children: [
+      { path: '', redirect: { name: 'landing' }},
       { path: 'landing', name: 'landing', component: require('~/pages/landing.vue') },
       { path: 'catalogue', name: 'catalogue', component: require('~/pages/catalogue.vue') },
       { path: 'projects', name: 'projects', component: require('~/pages/projects.vue') },
       { path: 'about', name: 'about', component: require('~/pages/about.vue') },
+      { path: 'services', name: 'services', component: require('~/pages/services.vue') },
       { path: 'contact', name: 'contact', component: require('~/pages/contact.vue') },
       { path: 'quotations', name: 'quotations', component: require('~/pages/quotations.vue') },
+      { path: 'categories', component: require('~/pages/category.vue') },
       { path: 'category/:category_id', component: require('~/pages/category.vue') },
       { path: 'category/:category_id/product/:product_id', component: require('~/pages/product.vue') }
-      ] },
+    ] },
 
   // Authenticated routes.
   ...authGuard([
@@ -20,7 +22,7 @@ export default ({ authGuard, guestGuard }) => [
     { path: '/settings',
       component: require('~/pages/settings/index.vue'),
       children: [
-      { path: '', redirect: { name: 'settings.profile' } },
+      { path: '', redirect: { name: 'settings.profile' }},
       { path: 'profile', name: 'settings.profile', component: require('~/pages/settings/profile.vue') },
       { path: 'password', name: 'settings.password', component: require('~/pages/settings/password.vue') }
       ] },
