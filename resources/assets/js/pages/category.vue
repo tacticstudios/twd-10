@@ -50,7 +50,7 @@
                   v-for="product in cards"
                   :key="product.id"
                 >
-                  <v-card hover :to="'/category/'+ $route.params.category_id+ '/product/' + product.id">
+                  <v-card>
                     <v-card-media :src="'/public/storage/' + product.photos" height="250px">
                     </v-card-media>
                     <v-card-title primary-title>

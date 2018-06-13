@@ -36,12 +36,14 @@ class ProductController extends Controller
         $amount = $request->amount;
         $category_id = $request->category_id;
         $photo = $request->photo;
+        $has_discount = $request->has_discount;
 
         $product = new Product();
         $product->name = $name;
         $product->description = $description;
         $product->amount = $amount;
         $product->category_id = $category_id;
+        $product->has_discount = ($has_discount === "true"  || $has_discount === "1") ? 1: 0;
 
         if($product->save()) {
             if ($request->hasFile('photo')) {
@@ -92,12 +94,13 @@ class ProductController extends Controller
         $amount = $request->amount;
         $category_id = $request->category_id;
         $photo = $request->photo;
-
+        $has_discount = $request->has_discount;
         $product = new Product();
         $product->name = $name;
         $product->description = $description;
         $product->amount = $amount;
         $product->category_id = $category_id;
+        $product->has_discount = ($has_discount === "true"  || $has_discount === "1") ? 1: 0;
 
 
         $product_db = Product::find($id);
@@ -105,6 +108,7 @@ class ProductController extends Controller
         $product_db->description = $product->description;
         $product_db->amount = $product->amount;
         $product_db->category_id = $product->category_id;
+        $product_db->has_discount = $product->has_discount;
 
         if($product_db->save()) {
             if ($request->hasFile('photo')) {

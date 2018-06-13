@@ -141,10 +141,10 @@ export default {
       dialog: false,
       headers: [
         { text: 'ID', value: 'id'},
-        { text: 'Name', value: 'name' },
-        { text: 'Description', value: 'description', sortable: false},
+        { text: 'Nombre', value: 'name' },
+        { text: 'Descripción', value: 'description', sortable: false},
         { text: 'Cat. Padre', value: 'parent_id'},
-        { text: 'Actions', value: 'name', sortable: false, width: 20 }
+        { text: 'Acciones', value: 'name', sortable: false, width: 20 }
       ],
       valid: true,
       imageName: '',

@@ -5,7 +5,7 @@ export default ({ authGuard, guestGuard }) => [
     children: [
       { path: '', redirect: { name: 'landing' }},
       { path: 'landing', name: 'landing', component: require('~/pages/landing.vue') },
-      { path: 'catalogue', name: 'catalogue', component: require('~/pages/catalogue.vue') },
+      { path: 'discounts', name: 'discounts', component: require('~/pages/discounts.vue') },
       { path: 'projects', name: 'projects', component: require('~/pages/projects.vue') },
       { path: 'about', name: 'about', component: require('~/pages/about.vue') },
       { path: 'services', name: 'services', component: require('~/pages/services.vue') },

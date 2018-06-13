@@ -11,14 +11,14 @@
             :key="index"
             v-if="card.parent_id == 0"
           >
-            <v-card>
+            <v-card hover :to="'/category/' + card.id">
               <v-card-media
                 :src="'/public/storage/' + card.photos"
                 height="200px"
               >
               </v-card-media>
               <v-card-actions>
-                <v-btn flat :to="'/category/' + card.id">
+                <v-btn flat>
                   {{ card.name }}
                 </v-btn>
                 <v-spacer></v-spacer>

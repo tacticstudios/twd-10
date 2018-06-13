@@ -15,7 +15,8 @@ class Product extends Model
         'description',
         'amount',
         'photos',
-        'category_id'
+        'category_id',
+        'has_discount'
     ];
     protected $dates = ['deleted_at'];
 
@@ -24,3 +25,4 @@ class Product extends Model
         return $this->belongsTo('App\Category');
     }
 }
+    

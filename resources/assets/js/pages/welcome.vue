@@ -100,7 +100,7 @@
           <v-btn flat to="/about" class="title">Empresa</v-btn>
           <v-btn flat to="/categories" class="title">Productos</v-btn>
           <v-btn flat to="/services" class="title">Servicios</v-btn>
-          <v-btn flat to="/cataclogue" class="title">Ofertas</v-btn>
+          <v-btn flat to="/discounts" class="title">Ofertas</v-btn>
           <v-btn flat to="/contact" class="title">Contactos</v-btn>
         </v-toolbar-items>
       </v-toolbar>

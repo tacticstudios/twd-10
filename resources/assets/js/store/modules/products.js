@@ -9,7 +9,8 @@ export const state = {
     name: '',
     description: '',
     amount: '',
-    category_id: ''
+    category_id: '',
+    has_discount: false
   },
   products: [],
   photo: ''
@@ -23,6 +24,7 @@ export const mutations = {
     state.product.description = payload.description
     state.product.amount = payload.amount
     state.product.category_id = payload.category_id
+    state.product.has_discount = payload.has_discount
   },
   [types.FETCH_PRODUCTS] (state, payload) {
     state.products = payload
@@ -36,6 +38,7 @@ export const mutations = {
     found.description = payload.description
     found.amount = payload.amount
     found.category_id = payload.category_id
+    found.has_discount = payload.has_discount
   },
   [types.REMOVE_PRODUCTS] (state, payload) {
     state.products = state.products
@@ -47,7 +50,8 @@ export const mutations = {
     state.product = {
       name: '',
       description: '',
-      amount: ''
+      amount: '',
+      has_discount: false
     }
   },
   [types.SET_PHOTO] (state, payload) {
@@ -79,6 +83,7 @@ export const actions = {
       formData.append('description', product.description)
       formData.append('amount', product.amount)
       formData.append('category_id', product.category_id)
+      formData.append('has_discount', product.has_discount)
       // /api/files/upload
       const { data } = await axios.post('/api/products', formData, {
           headers: {
@@ -114,6 +119,7 @@ export const actions = {
       formData.append('description', product.description)
       formData.append('amount', product.amount)
       formData.append('category_id', product.category_id)
+      formData.append('has_discount', product.has_discount)
       formData.append('_method', 'PATCH');
       // /api/files/upload
       const { data } = await axios.post('/api/products/' + product.id, formData, {

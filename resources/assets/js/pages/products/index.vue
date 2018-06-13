@@ -55,6 +55,14 @@
                           single-line
                         ></v-select>
                       </v-flex>
+                      <v-flex>
+                        <v-checkbox
+                          v-model="product.has_discount"
+                          label="En Oferta"
+                          :value="product.has_discount"
+                          type="checkbox"
+                        ></v-checkbox>
+                      </v-flex>
                       <v-flex xs12>
                         <img :src="imageUrl" height="150" v-if="imageUrl"/>
                         <v-text-field label="Select Image" @click='pickFile' v-model='imageName' prepend-icon='attach_file'></v-text-field>
@@ -116,6 +124,7 @@
           <td>{{ props.item.name }}</td>
           <td>{{ props.item.description }}</td>
           <td>{{ props.item.amount }}</td>
+          <td>{{ props.item.has_discount == 1 ? 'SI' : 'NO' }}</td>
           <td>{{ props.item.category !== null ? props.item.category.name : 'N.A'}}</td>
           <td class="justify-center layout px-0">
             <v-btn icon class="mx-0" @click="editItem(props.item)">
@@ -142,19 +151,20 @@ export default {
   data () {
     return {
       nameRules: [
-        v => !!v || 'Name is required',
+        v => !!v || 'El nombre es requerido',
         v => (v && v.length <= 50) || 'Name must be less than 50 characters'
       ],
       busy: false,
       selected: [],
       dialog: false,
       headers: [
-        { text: 'ID', value: 'id'},
-        { text: 'Name', value: 'name' },
-        { text: 'Description', value: 'description', sortable: false},
-        { text: 'Amount', value: 'amount'},
-        { text: 'Category', value: 'category'},
-        { text: 'Actions', value: 'name', sortable: false, width: 20 }
+        { text: 'Código', value: 'id'},
+        { text: 'Nombre', value: 'name' },
+        { text: 'Descripción', value: 'description', sortable: false},
+        { text: 'Precio', value: 'amount'},
+        { text: 'En Oferta', value: 'has_discount'},
+        { text: 'Categoría', value: 'category'},
+        { text: 'Acciones', value: 'actions', sortable: false, width: 20 }
       ],
       valid: true,
       imageName: '',
